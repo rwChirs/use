@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			ul,ol{
+				margin: 0;
+				padding: 0;
+				list-style: none;
+			}
+			ul {
+				position: relative;
+			}
+			#box {
+				width: 771px;
+				height: 245px;
+				margin:50px auto;
+				position: relative;
+			}
+			ul li {
+				position: absolute;
+				left: 0;
+				top: 0;
+				display: none;
+			}
+			ol#nav {
+				position: absolute;
+				left: 30px;
+				bottom: 10px;
+			}
+			ol#nav li {
+				width: 30px;
+				height: 30px;
+				border-radius: 50%;
+				background-color: orange;
+				margin-right: 10px;
+				float: left;
+				text-align: center;
+				line-height: 30px;
+				color: white;
+				cursor: pointer;
+			}
+			/*要给一个导航小方块激活样式*/
+			ol#nav li.active {
+				background-color: red;
+			}
+		</style>
+		<!--1 引入jQuery的包-->
+		<script src="../jquery-1.12.4.js"></script>
+		<script type="text/javascript">
+			// 2 入口函数
+			$(document).ready(function(){
+				
+				// 3 实现功能
+				// 分析思路： 让当前的需要出现的li 淡入  让别人淡出
+				// 1 获取所有的li  给所有的li添加鼠标移上 事件  
+	
+				$("#box ol li").mouseover(function(){
+					
+					
+					// 移到导航小方块上面去  让对应的ul里面的li淡入  让别的li淡出
+					// 要让当前的导航小方块加上激活类  让别的导航小方块去掉类
+					
+					$(this).addClass("active").siblings().removeClass("active");
+					
+					// 获取当前的导航小方块的索引
+					var idx = $(this).index();
+					$("#box ul li").eq(idx).fadeIn(500).siblings().fadeOut(500);
+					
+					// 要解决你移上去调整了图片的显示和隐藏 那么你应该让你移上的那个li的索引赋值给num
+					// num就会变成你最后移上去的那个li的索引
+					// 当自动走起来的时候  num++ 就会从你玩过的那个li 接着往后走
+					
+					num  = idx;
+					
+				});
+				
+				// 让它自动走起来
+				// 设置一个变量  初始化为null  后续用来存定时器
+				var timer = null;
+				// 设置一个变量 相当于计数器 从0开始到3 循环 
+				var num = 0;
+				// 开启定时器
+				function autoPlay(){
+					// 每隔一段时间 让数字自动增加一下
+					num++;
+					// 当num加到4 让其变成0
+					if(num>$("#nav li").length-1) {
+						num = 0;
+					}
+					// 每隔1.5秒 让导航颜色跟着走 
+					$("#nav li").eq(num).addClass("active").siblings().removeClass("active");
+					// 每隔1.5秒 让ul里面的li 对应的li（本来是索引 这里索引用变量来控制）淡入，让别人淡出
+					$("#box ul li").eq(num).fadeIn(500).siblings().fadeOut(500);
+				}
+				timer = setInterval(autoPlay,1500);
+				
+				
+				// 移到整个box上面 就立马清除定时器
+				$("#box").mouseover(function(){
+					
+					// 当鼠标移上去  让自动走的定时器 清除 
+					clearInterval(timer);
+					
+				})
+				
+				
+				// 移开整个box   就立马开启定时器
+				$("#box").mouseout(function(){
+					timer = setInterval(autoPlay,1500);
+				})
+			})
+			
+		</script>
+	</head>
+	<body>
+		<!--# 在本页面要进行一次跳转   JavaScript:; 阻止当前链接进行跳转-->
+		<!--<a href="javascript:alert(123);">打开百度</a>-->
+		<div id="box">
+			<ul>
+				<li style="display: block;"><a href="#"><img src="img/1.jpg" alt="" /></a></li>
+				<li><a href="#"><img src="img/2.jpg" alt="" /></a></li>
+				<li><a href="#"><img src="img/3.jpg" alt="" /></a></li>
+				<li><a href="#"><img src="img/4.jpg" alt="" /></a></li>
+			</ul>
+			<ol id="nav">
+				<li class="active">1</li>
+				<li>2</li>
+				<li>3</li>
+				<li>4</li>
+			</ol>
+		</div>
+	</body>
+</html>

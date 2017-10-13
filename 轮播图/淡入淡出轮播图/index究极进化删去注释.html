@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			ul,ol{
+				margin: 0;
+				padding: 0;
+				list-style: none;
+			}
+			ul {
+				position: relative;
+			}
+			#box {
+				width: 771px;
+				height: 245px;
+				margin:50px auto;
+				position: relative;
+			}
+			ul li {
+				position: absolute;
+				left: 0;
+				top: 0;
+				display: none;
+			}
+			ol#nav {
+				position: absolute;
+				left: 30px;
+				bottom: 10px;
+			}
+			ol#nav li {
+				width: 30px;
+				height: 30px;
+				border-radius: 50%;
+				background-color: orange;
+				margin-right: 10px;
+				float: left;
+				text-align: center;
+				line-height: 30px;
+				color: white;
+				cursor: pointer;
+			}
+			/*要给一个导航小方块激活样式*/
+			ol#nav li.active {
+				background-color: red;
+			}
+			
+			#box>a {
+				position: absolute;
+				top: 100px;
+				display: block;
+				width: 50px;
+				height: 40px;
+				background-color: rgba(0,0,0,0.5);
+				text-decoration: none;
+				font-size:40px;
+				text-align: center;
+				line-height: 40px;
+				color: orange;
+				/*默认先让小箭头隐藏*/
+				display: none;
+			}
+			#box a#right {
+				right: 0;
+			}
+		</style>
+		<!--1 引入jQuery的包-->
+		<script src="../jquery-1.12.4.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				
+				var timer = null;
+				var num = 0;
+				
+				$("#box ol li").mouseover(function(){
+					core($(this).index());
+					num = $(this).index();
+				});
+				//====================
+				function　core(num) {
+					$("#nav li").eq(num).addClass("active").siblings().removeClass("active");
+					// 每隔1.5秒 让ul里面的li 对应的li（本来是索引 这里索引用变量来控制）淡入，让别人淡出
+					$("#box ul li").eq(num).fadeIn(500).siblings().fadeOut(500);
+				}
+				
+				function autoPlay(){
+					num++;
+					if(num>$("#nav li").length-1) num = 0;
+					core(num);
+				}
+				
+				timer = setInterval(autoPlay,1500);
+				$("#box").mouseenter(function(){
+					clearInterval(timer);
+					$("#box>a").fadeIn();
+				})
+				$("#box").mouseleave(function(){
+					timer = setInterval(autoPlay,1500);
+					$("#box>a").fadeOut();
+				})
+				$("#left").click(function(){
+					num--;
+					if(num<0) num = $("#nav li").length-1;
+					core(num);
+				})
+				$("#right").click(function(){
+					autoPlay();
+				})
+			})
+			
+		</script>
+	</head>
+	<body>
+		<!--# 在本页面要进行一次跳转   JavaScript:; 阻止当前链接进行跳转-->
+		<!--<a href="javascript:alert(123);">打开百度</a>-->
+		<div id="box">
+			<ul>
+				<li style="display: block;"><a href="#"><img src="img/1.jpg" alt="" /></a></li>
+				<li><a href="#"><img src="img/2.jpg" alt="" /></a></li>
+				<li><a href="#"><img src="img/3.jpg" alt="" /></a></li>
+				<li><a href="#"><img src="img/4.jpg" alt="" /></a></li>
+			</ul>
+			<ol id="nav">
+				<li class="active">1</li>
+				<li>2</li>
+				<li>3</li>
+				<li>4</li>
+			</ol>
+			<a href="JavaScript:;" id="left">&lt;</a>
+			<a href="JavaScript:;" id="right">&gt;</a>
+		</div>
+	</body>
+</html>
