@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="zQuery.js"></script>
+		<script type="text/javascript">
+			// 在jQuery中如果参数 是匿名函数 他代码的是文档加载完毕之后再执行 windown.load = function()
+			//  $() 包装过的元素 都是jq对象  只有对象才可以挂载属性和方法
+			ZaG(function(){
+				//alert(123);
+				//"#box"  "div"  ".aa"
+				
+				/*console.log(ZaG("#box"));
+				console.log(ZaG(".aa"));
+				console.log(ZaG("ul"));*/
+				
+				
+				ZaG(".aa").css("backgroundColor","red");
+				
+				ZaG("#box").css({
+					
+					"backgroundColor":"blue",
+					"color":"pink",
+					"fontSize":"30px"
+				}).html("哈哈哈").click(function(){
+					alert(123)
+				})
+				
+			})
+			
+		/*	jquery是一个轻量级的javascript的类库
+			类库: 这个库文件 内部的代码组织形式 是面向对象形式 所以说是类库
+			函数库: 这个库文件内部的代码组织形式是面向过程的形式 */
+		</script>
+	</head>
+	<body>
+		<!--
+			为什么模拟实现jQuery
+			目的：
+			  1 原生js重新巩固一下  
+			  2锻炼一下逻辑思维
+			  3体会一下jQuery的内部实现的一个简单的原理 （以后再去研究jquery 的源码 就会方便很多）
+			
+		-->
+		<div id="box">box</div>
+		<ul>
+			<li class="aa">111</li>
+			<li>222</li>
+			<li class="aa">333</li>
+			<li>444</li>
+		</ul>
+	</body>
+</html>

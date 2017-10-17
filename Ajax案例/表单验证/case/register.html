@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>表单注册</title>
+	<style>
+		body {
+			margin: 0;
+			padding: 0;
+			background-color: #F7F7F7;
+		}
+
+		ul {
+			margin: 0;
+			padding: 50px;
+			list-style: none;
+		}
+
+		.register {
+			width: 800px;
+			margin: 50px auto;
+			background-color: #FFF;
+			border: 1px solid #CCC;
+			border-radius: 5px;
+		}
+
+		li {
+			display: flex;
+			margin: 20px 0;
+			position: relative;
+		}
+		
+		label, input {
+			display: block;
+			float: left;
+			height: 46px;
+			font-size: 24px;
+			box-sizing: border-box;
+			color: #333;
+		}
+
+		label {
+			width: 200px;
+			line-height: 46px;
+			margin-right: 30px;
+			text-align: right;
+		}
+
+		input {
+			width: 320px;
+			padding: 8px;
+			line-height: 1;
+			outline: none;
+			position: relative;
+		}
+
+		input.code {
+			width: 120px;
+		}
+
+		input.verify {
+			width: 190px;
+			margin-left: 10px;
+		}
+
+		input.disabled {
+			background-color: #CCC !important;
+		}
+
+		input[type=submit],
+		input[type=button] {
+			border: none;
+			color: #FFF;
+			background-color: #E64145;
+			border-radius: 4px;
+			cursor: pointer;
+		}
+
+		.tips {
+			position: fixed;
+			top: 0;
+			width: 100%;
+			height: 40px;
+			text-align: center;
+		}
+
+		.tips p {
+			min-width: 300px;
+			max-width: 400px;
+			line-height: 40px;
+			margin: 0 auto;
+			color: #FFF;
+			display: none;
+			background-color: #C91623;
+		}
+
+		li .loading {
+			position: absolute;
+			left: 300px;
+			top: 10px;
+			width: 25px;
+			display: none;
+		}
+	</style>
+</head>
+<body>
+	<div class="register">
+		<form id="ajaxForm">
+			<ul>
+				<li>
+					<label for="">用户名</label>
+					<input type="text" name="name" class="name">
+				</li>
+				<li>
+					<label for="">请设置密码</label>
+					<input type="password" name="pass" class="pass">
+				</li>
+				<li>
+					<label for="">请确认密码</label>
+					<input type="password" name="repass" class="repass">
+				</li>
+				<li>
+					<label for="">验证手机</label>
+					<input type="text" name="mobile" class="mobile">
+				</li>
+				<li>
+					<label for="">短信验证码</label>
+					<input type="text" name="code" class="code">
+					<input type="button" value="获取验证码" class="verify">
+				</li>
+				<li>
+					<label for=""></label>
+					<input type="submit" class="submit" value="立即注册">
+					<img src="./loading.gif" class="loading" alt="">
+				</li>
+			</ul>
+		</form>
+	</div>
+	<!-- 提示信息 -->
+	<div class="tips">
+		<p>用户名不能为空</p>
+	</div>
+	<!-- 引入jQuery -->
+	<script src="./js/jquery.min.js"></script>
+	<script>
+		// $('form').on('submit')
+
+		// var form = document.querySelector('form');
+
+		// form.onsubmit = function () {
+		// 	alert(1);
+		// }
+
+		// 当回车和点击时都可以触 submit 事件
+		$('form').on('submit', function () {
+
+			// 通过DOM一个个获取表单数据，比较繁琐
+			// jQuery 提供了一个方法 serialize 可以一次性获取
+			// 所有表单数据
+
+			// $(表单DOM).serialize();
+			// 表单项必须包含 name 属性
+
+			// console.log($(this).serialize());
+
+			// 当按钮上存在 disabled 时，请求正在
+			// 进行，所以要禁止用户再次请求
+			if($('.submit').hasClass('disabled')) {
+				return false;
+			}
+
+			// 发起请求
+			$.ajax({
+				url: './register.php',
+				type: 'post',
+				// serialize 可以一次性获得表单数据
+				// 格式为 key=val&key1=val1...
+				data: $(this).serialize(),
+				// 发送请求进行数据的验证
+				beforeSend: function () {
+					// 验证用户名，字母和数字1到6位
+					var regName = /[a-z0-9]{1,6}/;
+
+					if(!regName.test($('.name').val())) {
+						// 错误提示
+						$('.tips p').text('用户名至少为6位')
+						.fadeIn().delay(1500).fadeOut();
+
+						// 终止请求
+						return false;
+					}
+
+					// 验证密码，字母或数字只能6位
+					var regPass = /[a-z0-9]{6}/;
+
+					// 登陆 登录
+
+					if(!regPass.test($('.pass').val())) {
+						// 错误提示
+						$('.tips p').text('密码只能为6位')
+						.fadeIn().delay(1500).fadeOut();
+
+						// 终止请求
+						return false;
+					}
+
+					// loading 状态，提示用户
+					$('.submit')
+					.val('正在提交...')
+					.addClass('disabled');
+
+					$('.loading').show();
+				},
+				success: function (info) {
+					// 注册成功后的逻辑
+					alert('注册成功!');
+				},
+				complete: function () {
+					// 请求完成后
+					// 恢复原始状态
+					$('.submit')
+					.val('立即注册')
+					.removeClass('disabled');
+
+					$('.loading').hide();
+				}
+			});
+
+			// 阻止默认行为
+			// 对表单来说默认行即提交
+			return false;
+		});
+
+		// 验证码
+		$('.verify').on('click', function () {
+
+			// 缓存外部的this
+			var _this = $(this);
+
+			// 如果存在类名 disabled 则表示下在倒计时
+			// 应该禁止提交
+			if(_this.hasClass('disabled')) {
+				return;
+			}
+
+			$.ajax({
+				url: './code.php',
+				type: 'get',
+				data: {mobile: $('.mobile').val()},
+				beforeSend: function () {
+					// 验证手机号
+					var regMobile = /1\d{10}/;
+
+					if(!regMobile.test($('.mobile').val())) {
+						$('.tips p')
+						.text('请输入正确的手机号')
+						.fadeIn()
+						.delay(1500)
+						.fadeOut();
+
+						// 终止请求
+						return false;
+					}
+
+					// 状态禁用
+					_this.addClass('disabled');
+
+					// 倒计时
+					var seconds = 60;
+					var t = setInterval(function () {
+						// 清除倒计时
+						if(seconds <= 1) {
+							clearInterval(t);
+							_this.val('获取验证码');
+							_this.removeClass('disabled');
+							return;
+						}
+
+						// 倒计时
+						_this.val(--seconds + '秒后再次获取');
+					}, 1000);
+
+				},
+				success: function (info) {
+					alert(info);
+				}
+			});
+
+		})
+	</script>
+</body>
+</html>

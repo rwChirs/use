@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			
+		</style>
+		<!-- 基于jQuery开发插件 就需要先引入jQuery-->
+		<script src="jquery-1.12.4.js"></script>
+		<script src="jQuery.changeStyle.js"></script>
+		
+		<script>
+			// 我们通过$.fn.extend()
+			// 尝试给jq对象添加一个改变样式的方法
+//			$.fn.extend({
+//				"changeStyle":function(){
+//					this.css("color","red");  // 基于jQuery开发插件 有一个大的好处 就是可以使用jQuery的语法
+//				}
+//				
+//			})
+//			
+//			$(function(){
+//				
+//				$("#box").changeStyle();
+//				
+//			})
+
+//			$.fn.extend({
+//				"changeStyle":function(){
+//					this.css({
+//						"color":"red",
+//						"fontSize":"30px",
+//						"border":"3px green solid"
+//					});  // 基于jQuery开发插件 有一个大的好处 就是可以使用jQuery的语法
+//				}
+//				
+//			})
+//			
+//			$(function(){
+//				
+//				//$("#box").changeStyle();
+//				$("#box").changeStyle();
+//			})
+
+			// 用户能不能自己来设置 
+//			$.fn.extend({
+//				"changeStyle":function(color,fontSize,border){
+//					this.css({
+//						"color":color,
+//						"fontSize":fontSize,
+//						"border":border
+//					});  // 基于jQuery开发插件 有一个大的好处 就是可以使用jQuery的语法
+//				}
+//				
+//			})
+//			
+//			$(function(){
+//				
+//				//$("#box").changeStyle();
+//				$("#box").changeStyle("red","35px","3px pink solid");
+//			})
+
+	///如果需要传多个参数  那么则非常不方便 这个时候不妨改进一下  能不能传入一个json 用json设置多个属性
+//			$.fn.extend({
+//				"changeStyle":function(json){
+//					this.css({
+//						"color":json.color,
+//						"fontSize":json.fontSize,
+//						"border":json.border
+//					});  // 基于jQuery开发插件 有一个大的好处 就是可以使用jQuery的语法
+//				}
+//				
+//			})
+//			
+//			$(function(){
+//				
+//				//$("#box").changeStyle();
+//				$("#box").changeStyle({
+//					"fontSize":"40px",
+//					"color":"red",
+//					"border":"4px orange solid"
+//				});
+//				$("#box2").changeStyle();
+//			})
+			
+			//var $ = 123;
+	
+	
+	
+			
+			//1
+			$(function(){
+				
+				//$("#box").changeStyle();
+				$("#box").changeStyle({
+					"fontSize":"40px",
+					"color":"red",
+					"border":"4px orange solid"
+				}).mouseover(function(){
+					alert(123)
+				});
+				$("#box2").changeStyle().click(function(){
+					alert($(this).html())
+				});
+				// 链式操作 ：原理：return this
+			})
+			
+			
+			/*
+			//2
+			$(function(){
+				
+				//$("#box").changeStyle();
+				$("#box").changeStyle({
+					"fontSize":"40px",
+					"color":"red",
+					"border":"4px orange solid"
+				});
+				$("#box2").changeStyle();
+			})
+			*/
+			
+		</script>
+	</head>
+	<body>
+		<div id="box">box</div>
+		<div id="box2">box2</div>
+	</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			div {
+				height: 1000px;
+				border:1px solid red;
+			}
+		</style>
+		<!--引入jquery-->
+		<script src="jquery-1.12.4.js"></script>
+		<!--引入基于jQuery的插件-->
+		<script src="jquery.lazyload.js"></script>
+		<script type="text/javascript">
+			// 执行懒加载方法  一个执行方法全搞定
+			// 获取到所有需要懒加载的图片
+			
+			$(function(){
+				
+				$("img").lazyload();
+			})
+		</script>
+	</head>
+	<body>
+		<!--
+			我们打开一个网页的时候 里面会有很多图片
+			打开一瞬间 我们只能看到首屏  这部分区域
+			如果你要一次性全部加载完毕所有图片 很慢 很浪费带宽，
+			用户只要等待时间稍微一长  就会不耐烦 就会关闭 这就是用户体验不好
+			
+			最好的方法是  
+			打开页面 先加载能让用户看到的图片 
+			随着用户往下拉  快要看到图片额时候 立即加载图片
+			
+			这就是图片懒加载
+			
+			有现成的插件
+		-->
+		
+		<div></div>
+		<img data-original="img/0001.jpg" alt="" />
+		<div></div>
+		<img data-original="img/0001.jpg" alt="" />
+	</body>
+</html>

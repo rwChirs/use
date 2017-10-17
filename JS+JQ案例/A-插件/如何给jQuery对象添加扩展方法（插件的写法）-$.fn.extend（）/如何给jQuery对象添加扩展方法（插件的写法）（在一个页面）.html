@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			
+		</style>
+		<!-- 基于jQuery开发插件 就需要先引入jQuery-->
+		<script src="jquery-1.12.4.js"></script>
+		<script>
+			// 我们通过$.fn.extend()
+			// 尝试给jq对象添加一个改变样式的方法
+//			$.fn.extend({
+//				"changeStyle":function(){
+//					this.css("color","red");  // 基于jQuery开发插件 有一个大的好处 就是可以使用jQuery的语法
+//				}
+//				
+//			})
+//			
+//			$(function(){
+//				
+//				$("#box").changeStyle();
+//				
+//			})
+
+//			$.fn.extend({
+//				"changeStyle":function(){
+//					this.css({
+//						"color":"red",
+//						"fontSize":"30px",
+//						"border":"3px green solid"
+//					});  // 基于jQuery开发插件 有一个大的好处 就是可以使用jQuery的语法
+//				}
+//				
+//			})
+//			
+//			$(function(){
+//				
+//				//$("#box").changeStyle();
+//				$("#box").changeStyle();
+//			})
+
+			// 用户能不能自己来设置 
+//			$.fn.extend({
+//				"changeStyle":function(color,fontSize,border){
+//					this.css({
+//						"color":color,
+//						"fontSize":fontSize,
+//						"border":border
+//					});  // 基于jQuery开发插件 有一个大的好处 就是可以使用jQuery的语法
+//				}
+//				
+//			})
+//			
+//			$(function(){
+//				
+//				//$("#box").changeStyle();
+//				$("#box").changeStyle("red","35px","3px pink solid");
+//			})
+
+	///如果需要传多个参数  那么则非常不方便 这个时候不妨改进一下  能不能传入一个json 用json设置多个属性
+//			$.fn.extend({
+//				"changeStyle":function(json){
+//					this.css({
+//						"color":json.color,
+//						"fontSize":json.fontSize,
+//						"border":json.border
+//					});  // 基于jQuery开发插件 有一个大的好处 就是可以使用jQuery的语法
+//				}
+//				
+//			})
+//			
+//			$(function(){
+//				
+//				//$("#box").changeStyle();
+//				$("#box").changeStyle({
+//					"fontSize":"40px",
+//					"color":"red",
+//					"border":"4px orange solid"
+//				});
+//				$("#box2").changeStyle();
+//			})
+
+
+			$.fn.extend({
+				"changeStyle":function(json){
+					// 如果用户不传参数 那么最好按照一个默认配置走
+					// 如果用户传入参数 那就按照用户的配置进行执行
+					
+					var defaultsSettings = {
+						"color":"purple",
+						"fontSize":"20px",
+						"border":"1px solid black"
+					}
+					
+					//想办法把默认和传入的配置 进行融合
+					// 把默认的配置项 通过forin遍历 赋值给obj
+					var settings = {
+						
+					}
+					
+					$.extend(settings,defaultsSettings, json);
+					/*extend(settings,defaultsSettings);
+					if(json) {
+						extend(settings,json);
+					}*/
+					
+					//封装一个小函数　用来去做对象的属性遍历
+					
+					function extend(obj,obj2) {
+						for(var attr in obj2) {
+							obj[attr] = obj2[attr];
+						}
+					}
+					
+					this.css({
+						"color":settings.color,
+						"fontSize":settings.fontSize,
+						"border":settings.border
+					});  // 基于jQuery开发插件 有一个大的好处 就是可以使用jQuery的语法
+				}
+				
+			})
+			
+			$(function(){
+				
+				//$("#box").changeStyle();
+				$("#box").changeStyle({
+					"fontSize":"40px",
+					"color":"red",
+					"border":"4px orange solid"
+				});
+				$("#box2").changeStyle();
+			})
+		</script>
+	</head>
+	<body>
+		<div id="box">box</div>
+		<div id="box2">box2</div>
+	</body>
+</html>

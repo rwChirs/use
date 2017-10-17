@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			ul li {
+				list-style: none;
+				float: left;
+				color: red;
+				font-size: 40px;
+				cursor: pointer;
+			}
+		</style>
+	</head>
+	<body>
+<!--		
+		分析一下思路：
+		   页面上  先放5个空星星
+		  
+		 当我鼠标移上去以后 移到第几个星星 应该让从第1个到当前的星星全部为实心星星
+		
+		单击星星的时候 做什么事情？ 在点击任何一个星星的时候 
+		要记录一下 你单击了哪个星星  我记录了单击了哪个星星 之后 是为了 离开的时候 保留星星
+		
+		当我鼠标移开以后 所有的星星都为空星星
+		  在我离开所有的星星之后  到底是全部为空星星  还是 要保留一些实心星星-->
+		 
+			  
+		
+		<ul>
+			<li>☆</li>
+			<li>☆</li>
+			<li>☆</li>
+			<li>☆</li>
+			<li>☆</li>
+		</ul>
+	</body>
+	<script src="jquery-1.12.4.js"></script>
+	<script type="text/javascript">
+		// a.prevAll(); a前面所有兄弟 
+		//$("li:eq(3)").prevAll().css("backgroundColor","blue").html("haha");
+		
+		
+		// 先准备好两种星星
+		var star1 = "★";
+		var star2 = "☆";
+		
+		// 因为我们需要反复操作 星星 li  无论是鼠标移上还是单击 还是离开 主人都是星星
+		// 给所有的星星 添加鼠标移上 和鼠标单击  和鼠标移出
+		$("ul li").on({
+			"mouseover":function(){
+				
+				// 为了防止之前的星星的干扰 所以先暴力清除一下 让所有的星星空星星
+				$("ul li").text(star2);
+				
+				// 当我把鼠标移到当前的li上面  要让当前的和当前前面的所有到的li 都为实心星星
+				$(this).text(star1).prevAll().text(star1);	//prevAll选择前面所有
+				
+			},
+			"click":function(){
+				// 当单击的时候 要将当前的星星 做一个标记 巧妙的给它加一个类
+				// 让别人都去掉这个类  确保当前最新的单击过的那个li 有这个类
+				$(this).addClass("abc").siblings().removeClass("abc");
+				
+			},
+			"mouseout":function(){
+				// 离开以后让所有的星星 全部为空星星
+				$("ul li").text(star2);
+				
+				// 找到之前单击过的那个li 
+				// 让当前的那个单击过的li 变为实心的星星  然后 让它的前面的所有元素 都为实心星星
+				$("ul li.abc").text(star1).prevAll().text(star1);	//想要生效必须有类，没有类也不会报错
+			}
+		})
+		
+	</script>
+</html>

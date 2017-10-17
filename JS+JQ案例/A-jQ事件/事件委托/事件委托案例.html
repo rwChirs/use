@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<!--li*5>{你写的第$个内容}+a[herf="javascript:;"]{删除}-->
+		<ul id="oUl">
+			<li>你写的第1个内容<a href="javascript:;">删除</a></li>
+			<li>你写的第2个内容<a href="javascript:;">删除</a></li>
+			<li>你写的第3个内容<a href="javascript:;">删除</a></li>
+			<li>你写的第4个内容<a href="javascript:;">删除</a></li>
+			<li>你写的第5个内容<a href="javascript:;">删除</a></li>
+			
+		</ul>
+	</body>
+	<script src="jquery-1.12.4.js"></script>
+	<script type="text/javascript">
+		
+		//事件委托 将子元素的事件 委托给 父节点去代理 ，从而实现事件委托
+			//好处：li的个数不限，下面不用更改，是动态绑定 ；因为li都是子元素
+		
+		//oUl是事件代理
+		//JS写法
+		/*var oUl = document.getElementById("oUl");
+		
+		oUl.onclick = function(e){
+			
+			e = e|| event;
+				
+			var target = e.srcElement || e.target;	//target 事件对象属性的兼容
+			console.log(e.target);
+			if(target.nodeName == "A") {			//nodeName 属性指定节点的节点名称
+				
+				this.removeChild(target.parentNode);
+			}
+			
+		}*/
+		
+		//JQ写法
+		/*$("#oUl").delegate("a","click",function(e){
+			
+			console.log(e.type);// 当前的事件类型
+			console.log(e.target);// 点了谁就是谁
+			
+			console.log(this);// 当前的被委托的子元素
+			console.log(e.delegateTarget);// 当前委托的父级
+			
+			//e.delegateTarget.
+			// 让当前 你单击的那个a 那个a的父级 去移除 自己包含里面的内容
+			$(e.target).parent().remove()
+			//用e.target或者this都可以
+		})*/
+		
+	</script>
+</html>

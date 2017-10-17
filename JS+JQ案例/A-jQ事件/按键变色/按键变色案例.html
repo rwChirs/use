@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			.wrap {
+				width: 400px;
+				height: 400px;
+				margin: 100px auto 0;
+			}
+			
+			.wrap h1 {
+				text-align: center;
+			}
+			
+			.wrap div {
+				width: 400px;
+				height: 300px;
+				background: purple;
+				font-size: 30px;
+				text-align: center;
+				line-height: 300px;
+			}
+		</style>
+		<script src="jquery-1.12.4.js"></script>
+		<script type="text/javascript">
+			
+			$(function(){
+				
+				// 分析思路： 在整个文档下  按下对应的键 让盒子 的背景颜色 变成对应的键的字母的颜色
+				//  r = red   让盒子变成 红色   g -- green  让盒子变成绿色    b --blue  让盒子变成蓝色
+				
+				// 事件三要素：
+				// 1 获取事件源 document   2 事件类型    keydown   3 绑定事件处理函数
+				
+//				$(document).keydown(function(){
+//					
+//				})
+//				在整个文档下  按下键盘 
+				$(document).on("keydown",function(e){
+					
+					// 把键盘编码 放入keyCodeSpan 里面去
+					$("#keyCodeSpan").html(e.keyCode);
+					
+					//按下什么键  就让div变成对应的颜色
+					
+					switch(e.keyCode){
+						// 82 r red
+						case 82 : 
+						$("#bgChange").css("backgroundColor","red");
+						break;
+						// 71 g ===green
+						case 71 :
+						$("#bgChange").css("backgroundColor","green");
+						break;
+						// 66 b--blue
+						case 66 :
+						$("#bgChange").css("backgroundColor","blue");
+						break;
+						// 80 p--pink
+						case 80 :
+						$("#bgChange").css("backgroundColor","pink");
+						break;
+					}
+					
+				})
+				
+			})
+			
+		</script>
+	</head>
+	<body>
+		<div class="wrap">
+			<h1>按键改变颜色</h1>
+			<div id="bgChange">keyCode为：<span id="keyCodeSpan"></span></div>
+		</div>
+	</body>
+</html>

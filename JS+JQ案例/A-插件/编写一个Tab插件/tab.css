@@ -1,0 +1,13 @@
+div div {
+	width: 280px;
+	height: 280px;
+	border: 1px solid black;
+	display: none;
+	text-align: center;
+	line-height: 280px;
+	font-size:50px;
+}
+
+.active {
+	background-color: red;
+}

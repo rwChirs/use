@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Document</title>
+	<style type="text/css">
+		#wrap{position: relative;margin: 0 auto;width:700px; height:500px;
+		background: #eee;}
+		ul{ margin: 0 auto;}
+		ul li{list-style:none; float: left;}
+		ul li a{ display: block;}
+		.menu{width:200px; height: 20px; position: absolute;
+		border:1px blue solid; padding:5px;border-radius: 10px;
+		display: none;}
+		.m1{left:50px; top:50px;}
+		.m2{left:150px; top:50px;}
+		.m3{left:250px; top:50px;}
+		.m4{left:350px; top:50px;}
+		.menu a{text-align: center; text-decoration: none;font-size: 12px;
+		line-height: 20px;}
+		.menu a:hover{ text-decoration:underline; color: orange;}
+	</style>
+</head>
+<body>
+	<div id="wrap">
+		<ul>
+			<li><a href="#"><img src="images/1.png"/></a></li>
+			<li><a href="#"><img src="images/2.png"/></a></li>
+			<li><a href="#"><img src="images/3.png"/></a></li>
+			<li><a href="#"><img src="images/4.png"/></a></li>
+			<li><a href="#"><img src="images/5.png"/></a></li>
+			<li><a href="#"><img src="images/6.png"/></a></li>
+		</ul>
+		<div class="menu m1">
+			<a href="#">最新活动</a>
+			<a href="#">新闻</a>
+			<a href="#">联系我们</a>
+			<a href="#">留言</a>
+		</div>
+		<div class="menu m2">
+			<a href="#">关于我们</a>
+			<a href="#">哈哈</a>
+			<a href="#">哈哈</a>
+			<a href="#">关于我们</a>
+		</div>
+		<div class="menu m3">
+			<a href="#">查看作品</a>
+			<a href="#">哈哈</a>
+			<a href="#">哈哈</a>
+			<a href="#">查看作品</a>
+		</div>
+		<div class="menu m4">
+			<a href="#">博客文章</a>
+			<a href="#">博客文章</a>
+			<a href="#">哈哈</a>
+			<a href="#">博客文章</a>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+	var oWrap=document.getElementById("wrap");
+	var aDiv=oWrap.getElementsByTagName("div");
+	
+	var aLi=oWrap.getElementsByTagName("li");
+	var timer=null;
+	
+	for(var i=0;i<aLi.length-2;i++){
+		aLi[i].index=i;
+		aDiv[i].index=i;
+		aLi[i].onmouseover=function(){
+			clearTimeout(timer);
+			for(var i=0;i<aDiv.length;i++){
+				aDiv[i].style.display="none";
+			};
+			aDiv[this.index].style.display="block";
+			
+		}
+		aDiv[i].onmouseover=function(){
+			clearTimeout(timer);
+			/*for(var i=0;i<aDiv.length;i++){
+				aDiv[i].style.display="none";
+			};
+			aDiv[this.index].style.display="block";*/
+		}
+		aDiv[i].onmouseout=aLi[i].onmouseout=function(){
+			var _this=this.index;
+			timer=setTimeout(function(){
+				aDiv[_this].style.display="none";
+			},300);
+			
+			
+		}
+	};
+	
+	
+	
+</script>
+</html>

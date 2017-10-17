@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<style type="text/css">
+			body {
+				margin: 0;
+				padding: 0;
+			}
+			
+			#map {
+				width: 800px;
+				height: 600px;
+				margin: 50px auto;
+				position: relative;
+				background: #CCC;
+			}
+			
+			#map div {
+				position: absolute;
+				background: orange;
+			}
+			#map div:nth-child(2){
+				z-index: 9;
+			}
+		</style>
+	</head>
+
+	<body>
+		<button id="start">Start!</button>
+		<div id="map"></div>
+
+		<script src="js/food.js"></script>
+		<script src="js/snake.js"></script>
+		<script src="js/game.js"></script>
+		<script type="text/javascript">
+			var oMap = document.getElementById("map");
+			var g = new Game(oMap);
+			g.start();
+		</script>
+	</body>
+
+</html>

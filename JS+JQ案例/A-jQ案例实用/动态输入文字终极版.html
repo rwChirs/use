@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+        	* {
+	            margin: 0;
+	            padding: 0;
+	        }
+	
+	        @keyframes blink {
+	            0%,
+	            100% {
+	                opacity: 1
+	            }
+	            50% {
+	                opacity: 0
+	            }
+	        }
+	
+	        @-webkit-keyframes blink {
+	            0%,
+	            100% {
+	                opacity: 1
+	            }
+	            50% {
+	                opacity: 0
+	            }
+	        }
+	
+	        @-moz-keyframes blink {
+	            0%,
+	            100% {
+	                opacity: 1
+	            }
+	            50% {
+	                opacity: 0
+	            }
+	        }
+	
+	        .wrap {
+	            width: 1000px;
+	            text-align: center;
+	            margin: 100px auto 0;
+	        }
+	
+	        .wrap h1 {
+	            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	            font-weight: 300;
+	        }
+	
+	        .word {
+	            font-weight: 700;
+	        }
+	
+	        .typed-cursor {
+	            opacity: 1;
+	            -webkit-animation: blink .7s infinite;
+	            -moz-animation: blink .7s infinite;
+	            animation: blink .7s infinite;
+	            display: none;
+	        }
+	
+	        .saySection {
+	            margin-top: 50px;
+	        }
+	
+	        .saySection input {
+	            font-size: 30px;
+	        }
+	
+	        .saySection .txtSay {
+	            padding-left: 10px;
+	        }
+	
+	        .saySection .btnSay {
+	            display: inline-block;
+	            padding: 0 20px;
+	            cursor: pointer;
+	        }
+		</style>
+		<script src="../jquery-1.12.4.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			
+			$(function(){
+				// 先实现一下 打开页面 之后 自动一个字一个字出来 定时器
+				// 设定一个变量 用来存字符串
+				var str = "红鲤鱼与绿鲤鱼与驴";
+				
+				core(str);
+				
+				//封装函数方法
+				function core(str){	//传参
+					var timer = null;
+					//开启一个定时器
+					var newStr = "";// 用来拼接原来的字符串
+					var num = 0;//设置一个数字变量 用来一个字一个字去找原来字符串中的对应的字
+					
+					timer = setInterval(function(){
+						//控制一下条件	当num小于字符串长度 则进行拼接往页面上放
+						if(num < str.length){
+							//开始：在打字过程当中 应该让光标显示出来
+							$(".typed-cursor").show();
+							// 将第num个字符放入newStr中
+							newStr += str[num];
+							// 将newStr放入word标签中
+							$(".word").text(newStr);
+							// num自增
+							num++;
+						}else{
+							
+							//如果字放完了 需要清除定时器
+							clearInterval(timer);
+							//结束：打完字之后 应该让光标隐藏出来
+							$(".typed-cursor").hide();
+							
+						}
+						
+					},300)
+						
+				}
+				
+				//第二步	当用户数完内容之后 单击btnSay按钮 让文本框中的内容 一个字一个字的放入word
+				$("#btnSay").click(function(){
+					// 获取文本框的内容
+					var str = $("#inValue").val();
+					
+					core(str);
+					
+					$("#inValue").val("");
+					
+				})
+				
+	
+			})
+			
+		</script>
+	</head>
+	<body>
+		<div class="wrap">
+	        <h1>
+	            You want to say ： <span class="word"></span><span class="typed-cursor" >|</span> ！
+	        </h1>
+	
+	        <div class="saySection">
+	            <input type="text" id="inValue" class="txtSay">
+	            <input type="button" value="Say" id="btnSay" class="btnSay">
+	        </div>
+	    </div>
+	</body>
+</html>

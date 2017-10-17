@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    	body {
+    		margin: 0;
+    		padding: 0;
+    	}
+    	#start {
+    		width: 80px;
+    		height: 50px;
+    		font-weight: 700;
+    		color: #46b2ff;
+    		background-color: #d0fffd;
+    		position: absolute;
+    		left: 100px;
+    		top: 100px;
+    	}
+        #map {
+            width: 800px;
+            height: 600px;
+            position: relative;
+            background-color: #cccccc;
+            margin: 60px auto;
+        }
+    </style>
+    <!-- 第一步 搭建页面 -->
+    <!-- 第二步 考虑食物对象 food      -->
+        <!-- 属性：位置（x，y）、width、height、color    -->
+        <!-- 方法：渲染到render 随机将食物放置(添加)在mapdiv盒子里面  -->
+    <!-- 第三步 把蛇抽象成一个对象 -->
+        <!-- 属性：width height 方向 -->
+            <!-- body蛇的组成部分（头 两个身子） -->
+        <!-- 方法：render 把蛇放入页面中  -->
+    <!-- 第四步 把蛇和食物以及map对象 分别实现具体代码 -->
+        <!-- 把整体的游戏抽象成一个对象 让蛇和食物以及map统一到游戏对象支配 -->
+        <!-- 游戏对象： -->
+            <!-- 属性：食物 蛇 地图 -->
+            <!-- 方法：开始游戏的方法  （统一调用食物渲染 和蛇的渲染 以及其他的方法） -->
+            <!-- new Game(); -->
+            <!-- Game.start(); -->
+    <!-- 第五步 设置蛇的移动方法 -->
+    <!-- 第六步 让蛇动起来 加game.jss -->
+    
+    <!-- 第七步 贪吃蛇的三个优化
+			1.蛇不能掉头
+			2.蛇可以长按方向键或者连续按方向键加速
+			3.蛇碰到自身身体Game Over-->
+</head>
+<body>
+	<button id="start">Fighting!</button>
+    <div id="map"></div>
+</body>
+<script src="index.js"></script>
+
+<!-- 调用 -->
+<script>
+    // 地图
+    var oMap = document.getElementById("map");
+
+
+    var game = new Game(oMap);
+    game.start();
+
+</script>
+</html>

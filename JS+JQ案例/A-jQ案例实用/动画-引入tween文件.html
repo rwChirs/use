@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			#box {
+				width: 100px;
+				height: 100px;
+				border-radius: 50%;
+				background-color: red;
+				position: relative;
+				margin:20px auto;
+			}
+		</style>
+		<script src="jquery-1.12.4.js"></script>
+		<script src="tween.js"></script>
+		<script type="text/javascript">
+			
+			$(function(){
+				
+				$("#box").animate({
+					width:50,
+					height:50,
+					top:400
+				},2000,"elasticOut")
+			})
+			
+			
+		</script>
+	</head>
+	<body>
+		<div id="box"></div>
+	</body>
+</html>

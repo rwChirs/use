@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+
+			* {
+				padding: 0;
+				margin: 0;
+			}
+			
+			.wrap {
+				width: 300px;
+				margin: 100px auto 0;
+			}
+			
+			table {
+				border-collapse: collapse;
+				border-spacing: 0;
+				border: 1px solid #c0c0c0;
+			}
+			
+			th,
+			td {
+				border: 1px solid #d0d0d0;
+				color: #404060;
+				padding: 10px;
+			}
+			
+			th {
+				background-color: #09c;
+				font: bold 16px "微软雅黑";
+				color: #fff;
+			}
+			
+			td {
+				font: 14px "微软雅黑";
+			}
+			
+			tbody tr {
+				background-color: #f0f0f0;
+			}
+			
+			tbody tr:hover {
+				cursor: pointer;
+				background-color: #fafafa;
+			}
+		</style>
+		
+		<script src="../jquery-1.12.4.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			
+			$(function(){
+				
+			
+				// 分析思路：
+					//1  单击tbody下面的复选框们 ,如果这些复选框们 全部打勾  则全选自动打勾
+					//	给所有的下面的复选框们添加单击事件  在单击的过程中 判断是否全打勾了
+					//2  单击全选按钮  全选去掉勾号  下面的复选框们 都去掉勾   如果全选打上了勾  下面的复选框们全打勾
+					
+				//思路1	
+				$("#j_tb input").click(function(){
+					
+					//一单击之后 获取下面的复选框们	有几个  4个
+					var inpLen = $("#j_tb input").length;
+					//一单击之后	判断	当前下面的复选框们	有几个打钩了
+					var checkLen = $("#j_tb input:checked").length;
+					
+					//如果checkLen 等于inpLen	4个	说明 下面的复选框们 全选了
+					/*if(checkLen == inpLen){
+						$("#j_cbAll").prop("checked",true);
+					}else{
+						$("#j_cbAll").prop("checked",false);
+					}*/
+					
+					//优化其实就是等于下面
+					$("#j_cbAll").prop("checked",checkLen == inpLen);
+					
+				})
+				
+				//思路2
+				$("#j_cbAll").click(function(){
+					
+					//获取当前的全选按钮的checked
+					/*var check = $(this).prop("checked");
+					$("#j_tb input").prop("checked",check);*/
+					
+					//优化如下
+					$("#j_tb input").prop("checked",$(this).prop("checked"));
+					
+				})
+			})
+		</script>
+	</head>
+	<body>
+		<div class="wrap">
+			<table>
+				<thead>
+					<tr>
+						<th>
+							<input type="checkbox" id="j_cbAll">
+						</th>
+						<th>课程名称</th>
+						<th>所属学院</th>
+					</tr>
+				</thead>
+				<tbody id="j_tb">
+					<tr>
+						<td>
+							<input type="checkbox">
+						</td>
+						<td>JavaScript</td>
+						<td>前端与移动开发学院</td>
+					</tr>
+					<tr>
+						<td>
+							<input type="checkbox">
+						</td>
+						<td>css</td>
+						<td>前端与移动开发学院</td>
+					</tr>
+					<tr>
+						<td>
+							<input type="checkbox">
+						</td>
+						<td>html</td>
+						<td>前端与移动开发学院</td>
+					</tr>
+					<tr>
+						<td>
+							<input type="checkbox">
+						</td>
+						<td>jQuery</td>
+						<td>前端与移动开发学院</td>
+					</tr>
+				</tbody>
+			</table>
+			
+		</div>
+	</body>
+</html>

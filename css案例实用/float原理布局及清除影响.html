@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>浮动</title>
+	<style>
+		例1：
+		div {
+			width: 500px;
+			height: 500px;
+			border: 1px solid hotpink;
+			margin: 0 auto;	/* 让盒子居中对齐 */
+		}
+		img {
+			float: right; /* 开始的时候 ，浮动是用来做文字环绕效果 */
+		}
+		
+
+		例2：
+		div {
+			width: 200px;
+			height: 200px;
+			background-color: pink;
+			/*display: inline-block;   
+			转换为行内块元素 就可以放一行上 有宽度高度  但是 元素之间有空隙 不方便处理*/
+			float: left; /*左侧浮动 */
+		}
+		div:nth-child(2) {
+			background-color: hotpink;
+		}
+		div:last-child {
+			background-color: deeppink;
+		}
+		
+
+		例3：
+		div:first-child {
+			width: 200px;
+			height: 200px;
+			background-color: pink;
+			float: left;  /* left 默认值 */
+			/* float 浮动呢》？ 不叫动词打次   浮前提在漂浮的概念 漂在 标准流的上面  压住标准流*/
+		}
+		div:last-child {
+			height: 300px;
+			width: 140px;
+			background-color: skyblue;
+		}
+
+
+		例4：
+		.father {
+			width: 500px;
+			height: 300px;
+			background-color: pink;
+			border: 10px solid red;
+			padding: 10px;  /* 子盒子浮动不会压住父盒子的padding
+			和margin 。 */
+		}
+		.son {
+			width: 100px;
+			height: 100px;
+			background-color: purple;
+			float: left;
+		}
+
+	
+		例5：
+		section {
+			width: 800px;
+			height: 500px;
+			background-color: pink;
+		}
+		section div:first-child {
+			width: 200px;
+			height: 200px;
+			background-color: purple;
+			/*float: left;*/
+			/*都浮动打开这个*/
+		}
+		section div:last-child {
+			width: 249px;
+			height: 300px;
+			background-color: skyblue;
+			float: left;
+			/* 熊大和熊二都浮动，则盒子会顶对齐 */
+			/* 熊大不浮动  熊二都浮动，
+			熊二会跑到下一行  */
+		}
+
+		
+		例6：
+		div {
+			height: 200px;
+			background-color: pink;
+			float: left; /*  块级元素添加浮动之后，具有行内块的特性 */
+
+		}
+		span {
+			background-color: purple; 
+			height: 100px;
+			float: left;/*  行内元素添加浮动之后，具有行内块的特性   */
+		}
+		/* 行内块特性  可以一行放多个  有宽度和高度  盒子的大小是有内容决定的 */
+
+
+		例7：
+		* {
+			margin: 0;
+			padding: 0;  /* 清除内外边距 css 第一讲句话 */
+		}
+		/* 相同的样式，我们会想到 并集选择器 */
+		.top,
+		.banner,
+		.main,
+		.footer {
+			width: 960px;
+			text-align: center; /* 文字居中对齐 */
+			margin: 0 auto; /* 可以让盒子居中对齐  只要保证 左右auto就阔以了 */
+			margin-bottom: 10px;
+			border: 1px dashed #ccc;
+		}
+		.top {		
+			height: 80px;
+			background-color: pink;									
+		}
+		.banner {
+			height: 120px;
+			background-color: purple;
+		}
+		.main {
+			height: 500px;
+			background-color: hotpink;
+		}
+		.footer {
+			height: 150px;
+			background-color: black;
+		}
+
+
+		例8：
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		.top,  /* 并集选择器给相同样式集体声明 */
+		.banner,
+		.main,
+		.footer {
+			width: 960px;
+			margin: 0 auto;
+			border: 1px dashed #ccc;
+			text-align: center;
+			background-color: #eee;
+			margin-bottom: 8px;
+		}
+		.top {
+			height: 80px;
+		}
+		.banner {
+			height: 150px;
+		}
+		 .main {
+			height: 500px;
+		} 
+		.left {
+			width: 360px;
+			height: 500px;
+			background-color: pink;
+			float: left;
+
+		}
+		.right {
+			width: 592px;	/*为了好看，我让两个盒子的距离和底部边框距离一样*/
+			height: 500px;
+			background-color: purple;
+			float: right;
+		}
+		.footer {
+			height: 120px;
+		}
+
+
+		例9：
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		ul {
+			list-style: none;  /* 取消列表的默认样式小点 */
+		}
+		.top {
+			height: 60px;
+			background-color: #000;
+		}
+		.banner {
+			width: 960px;
+			height: 400px;
+			background-color: skyblue;
+			margin: 20px auto;
+			border-radius: 15px;
+		}
+		.main {
+			width: 960px;
+			margin: 0 auto;
+			height: 200px;
+		}
+		.main ul li {
+			width: 240px;
+			height: 200px;
+			background-color: pink;
+			float: left;  /* 浮动的目的让多个块级li 一行显示 而且米有缝隙呦 */
+		}
+		.main ul li:nth-child(even) {  /* even 偶数  个  odd  奇数 */
+			background-color: purple;
+		}
+		.footer {
+			height: 100px;
+			background-color: #000;
+		}
+
+
+
+		例10：
+		.box1 {
+			/* height: 200px; 很多情况下，我们父级盒子，不方便给高度 考虑孩子高度会变  */
+			width: 600px;
+			background-color: pink;
+		}
+		.box2 {
+			width: 600px;
+			height: 240px;
+			background-color: purple;
+		}
+		.son1 { /*  son1 和 son2 是标准流，会撑开盒子 */
+			width: 150px;
+			height: 100px;
+			background-color: skyblue;
+			float: left;
+		}
+		.son2 {
+			width: 300px;
+			height: 100px;
+			background-color: hotpink;
+			float: left;
+		}
+
+		
+		例11：
+		div {
+			width: 249px;
+			height: 249px;
+			line-height: 249px;
+			background-color: pink;
+			margin: 100px;
+			background: url(images/shui.jpg) 0 0 no-repeat;
+			font-size: 30px;
+			text-align: center;
+			color: rgba(255, 255, 255, 0.7);/*  颜色半透明 */
+			border-radius: 50%; /*  变成一个圆 圆角 */
+			box-shadow: 5px 5px 10px 16px rgba(255,255,255, 0.4) inset,  
+			5px 4px 10px rgba(0,0,0,0.3);/* 内阴影 */
+			
+		}
+
+
+
+
+
+
+	</style>
+</head>
+<body>
+	<div>
+		CSS定位机制：标准流、浮动、定位
+		1、标准流 一个网页内的标签元素 从上到下从左到右排列顺序
+
+		2、浮动：设置了浮动属性的元素 会脱离标准流的控制 移动到其父元素的指定位置
+		基础格式 
+
+		（重点）目的：就是为了让多个块级元素同一行显示
+
+		float      浮 漏 特   
+
+		浮：    加了浮动的元素盒子是浮起来的，漂浮在其他的标准流盒子上面。
+
+		漏：    加了浮动的盒子，不占位置的，它浮起来了，它原来的位置漏 给了标准流的盒子。
+
+		特：    特别注意，首先浮动的盒子需要和标准流的父级搭配使用， 其次 特别的注意浮动可以使元素显示模式体现为行内块特性。（重点）
+
+
+		选择器{float:属性值;}
+								left 元素向左浮动
+								right 元素向右浮动
+								none 元素不浮动
+		
+		最早作用：控制照片让其他元素（T文字）实现 环绕图片 效果
+		例1：<div>
+			一大堆文字<img src="images/img.jpg" height="220" width="171" alt="">；一大堆文字
+			</div>
+
+			<hr />
+		可以让任何盒子 一行排列
+		例2：
+			<div></div>
+			<div></div>
+			<div></div>
+
+		（主要说明用 转换为行内块元素在一行 有空隙
+		用浮动则是相连接的）
+
+		2.1 浮动的特性
+		会脱离标准流，不占位置，影响标准流，只左右浮动
+
+		1）要创建包含块的概念：
+		浮动元素会找离他最近的父级盒子对齐	但是不会贴着边框，不会超过padding内边距
+		例3：漂浮概念
+			<div></div>
+			<div></div>
+	<!-- 如果2个盒子都不加浮动，就是标准流  块级元素自上而下显示 -->
+		例4：子盒子浮动不会压住父盒子的padding,margin,border
+			<div class="father">
+				<div class="son"></div>
+			</div>
+		2）浮动元素排列位置
+		和上一个块级元素有关系。
+
+		如	按照前元素-后元素的顺序
+		前元素浮动，后元素顶部会和前元素顶部对齐
+		如	前元素是标准流，后元素顶部会和前元素底部对齐
+
+		结论：也就是说一个父盒子里的子盒子，只要有一个浮动，其他都需要浮动，才能一行对齐
+		添加浮动后的元素具有行内块元素的特性，其大小取决于定义大小或内容多少
+		例5： 如果只有 两个子盒子的后面那个盒子浮动
+		则会跑到下一行，不符合我们的效果
+			<section>
+    			<div>熊大</div>
+    			<div>熊二</div>
+    		</section>
+		例6：块级、行内元素浮动后，具有行内块特性
+			 一行可多个，有宽高，盒子大小由内容决定
+			<div>三大傻大闹宝莱坞</div>
+   			<div>三大傻大闹宝莱坞</div>
+    		<span>额的个神啊</span>
+    		<span>额的个神啊</span>
+		<hr>
+		
+
+		版心和布局流程
+		1.版心就是可视区（网页主题内容所在区域）水平居中显示，常见宽值960px，980px，1000px，2000px
+		2.布局流程
+		1）确认页面版心
+		2）分析页面的行模块，以及每个行模块的列模块
+		3）制作html结构
+		4）CSS初始化，运用盒子模型原理
+
+		一列固定宽度且居中（常用结构）
+		例7：默认宽度 上下结构 不用浮动
+		<div class="top">top</div>
+		<div class="banner">banner</div>
+		<div class="main">main</div>
+		<div class="footer">footer</div>
+
+
+		两列左窄右宽型（小米官网）
+		例8：默认宽度 左大右小 父盒子里左右浮动
+		<div class="top">top</div>
+		<div class="banner">banner</div>
+		<div class="main">
+			<div class="left">left</div>
+			<div class="right">right</div>
+		</div>
+		<div class="footer">footer</div>
+		
+
+		通栏平均分布型（锤子官网）
+		例9：
+		<div class="top">top</div>
+		<div class="banner">banner</div>
+		<div class="main">
+		<ul>
+			<li>1</li>
+			<li>2</li>
+			<li>3</li>
+			<li>4</li>
+		</ul>
+		</div>
+		<div class="footer">footer</div>
+
+		清除浮动带来的问题
+		本质：为了解决父级元素因为子级浮动引起内部高度为0 的问题。
+		什么问题呢？
+		1.正常标准流盒子
+		子盒子是标准流，父盒子虽然没有高度，但是会撑开父盒子高度
+		上下
+		2.子盒子浮动
+		子盒子浮动，脱标，父盒子没有高度就为0，不会被撑开
+		左右
+		例10：
+		<div class="box1">
+			<div class="son1"></div>
+			<div class="son2"></div>
+		</div>
+		<div class="box2"></div>
+
+		本质：
+		清除浮动就是把浮动的盒子圈到里面，让父盒子闭合出口和入口不让他们出来影响其他元素。
+
+		解决办法：
+		基础语法格式：
+		选择器{clear:both;}
+		同时清除左右两侧浮动的影响
+		
+		都是在浮动的子盒子后面，父盒子里面写
+
+		1.额外标签法
+		在浮动元素末尾添加一个空的标签例如 <div style=”clear:both”></div>
+		
+		2.父级添加overflow属性方法
+		可以给父级添加： overflow为 hidden|auto|scroll  都可以实现。
+
+		3.使用after伪元素清除浮动
+		.clearfix:after {  content: "."; display: block; height: 0; clear: both; visibility: hidden;  }   
+
+		.clearfix {*zoom: 1;}   /* IE6、7 专有 */
+
+		4.使用before和after双伪元素清除浮动
+		.clearfix:before,.clearfix:after { 
+  						content:"";
+  						display:table;  /* 这句话可以出发BFC BFC可以清除浮动,BFC我们后面讲 */
+						}
+						.clearfix:after {
+									 clear:both;
+									}
+						.clearfix {
+  									*zoom:1;
+									}
+
+
+
+		当盒子固定值时
+		加入
+		box-sizing: border-box;   /* padding border  不撑开盒子 */
+		就是说不会因为加了内边距和边距大小的原因而撑大盒子，从而还要从新计算，减去他们的大小的宽高值
+
+		
+		盒子阴影
+		box-shadow:水平阴影 垂直阴影 模糊距离 阴影尺寸 阴影颜色  内/外阴影；
+
+		h-shadow	水平阴影位置
+		v-shadow	垂直阴影位置
+		blur		模糊距离
+		spread		阴影尺寸
+		color		阴影颜色
+		inset		将默认的外部阴影（outset）改为内部阴影
+
+		前两个必须写
+		例11：
+			<div> 水晶图片 </div>
+
+
+
+
+
+	</div>
+</body>
+</html>

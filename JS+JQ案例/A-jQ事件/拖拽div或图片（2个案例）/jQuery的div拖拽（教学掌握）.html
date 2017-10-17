@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			#box {
+				position: absolute;
+				width: 100px;
+				height: 100px;
+				background-color: red;
+			}
+		</style>
+	</head>
+	<body style="height: 2000px;">	<!--加了高度-->
+		<div id="box"></div>
+	</body>
+	<script src="jquery-1.12.4.js"></script>
+	<script type="text/javascript">
+		/*
+		//JS	出现问题	解决：加一行改一行（注释部分）
+		var oImg = document.getElementById("box");
+		oImg.onmousedown = function(e){
+			e = e || event;
+			
+			var disX = e.clientX - this.offsetLeft;
+			var disY = e.clientY - this.offsetTop;
+			
+			document.onmousemove = function(e){
+				
+				e = e || event;
+//				var scrollT = document.documentElement.scrollTop || document.body.scrollTop;
+				
+				oImg.style.left = e.clientX - disX + "px";
+				oImg.style.top = e.clientY - disY + "px";
+//				oImg.style.top = e.clientY + scrollT - disY + "px";
+			}
+			document.onmouseup = function(){
+				document.onmousemove = document.onmouseup = null;
+
+			}
+			
+		}
+		*/
+		
+		
+		
+		
+		/*
+		//JQ
+		$("#box").mousedown(function(e){
+			// 获取鼠标距离div元素的左上角的偏移量
+			// 距离外面这个元素div    水平距离
+			var disX = e.offsetX;
+			// 距离外面这个元素div    垂直距离
+			var disY = e.offsetY;
+			// 给整个文档 添加 鼠标移动事件  和鼠标弹起事件
+			$(document).on({
+				"mousemove":function(e){
+					// 让div 的left 和top 跟着 鼠标走
+				    // 用pageX 和pageY  不用兼容了 而且不用加scrollTop
+					$("#box").css({
+						"left":e.pageX - disX,
+						"top":e.pageY - disY
+					})
+					
+				},
+				"mouseup":function(){
+					// 弹起鼠标 把文档上的所有事件全部取消 
+					$(this).off();
+				}
+				
+			})
+			
+		})
+		*/
+	</script>
+</html>

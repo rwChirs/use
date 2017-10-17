@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="jquery-ui.css"/>
+		<style type="text/css">
+			body{
+				font: 62.5% "Trebuchet MS", sans-serif;
+				margin: 50px;
+			}
+			#accordion {
+				width: 300px;
+			}
+		</style>
+		<script src="jquery-1.12.4.js"></script>
+		<script src="jquery-ui.js"></script>
+		<script type="text/javascript">
+			
+			$(function(){
+				
+				$( "#accordion" ).accordion();
+				
+				
+				$( "#abc" ).datepicker({
+					inline: true,
+					dayNamesMin: [ "日", "一", "二", "三", "四", "五", "六"],
+					firstDay:1
+
+				});
+			})
+		</script>
+	</head>
+	<body>
+		<h2 class="demoHeaders">Accordion</h2>
+		<div id="accordion">
+			<h3>新闻</h3>
+			<div>这是新闻的内容</div>
+			<h3>Second</h3>
+			<div>Phasellus mattis tincidunt nibh.</div>
+			<h3>Third</h3>
+			<div>Nam dui erat, auctor a, dignissim quis.</div>
+		</div>
+		
+		<h2 class="demoHeaders">Datepicker</h2>
+		<div id="abc"></div>
+	</body>
+</html>

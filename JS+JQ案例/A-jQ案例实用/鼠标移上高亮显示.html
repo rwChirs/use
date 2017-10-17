@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<!--1 引入jQuery的包-->
+		<script src="jquery-1.12.4.min.js"></script>
+		<script type="text/javascript">
+			// 2 入口函数
+			$(function(){
+				
+				//  思路： 1.鼠标移到任何一个li 上面 当前对应的这个li加上粉色背景 让它的其他兄弟们去掉背景颜色
+				//   	 2.当从ul 身上移出鼠标 则让所有的li 都去掉背景     
+				
+				//1.
+				$("ul li").mouseover(function(){
+
+					$(this).css("backgroundColor","pink");
+					
+					$(this).siblings().css("backgroundColor","");
+					
+					// 在jQuery里面  如果当前jq对象 执行了一个设置操作的方法，那么
+					// 该方法 会在执行完毕之后  返回当前的jq对象
+					// 这种情况就是称之为 jQuery里面的链式调用  也叫链式操作 （很多人之所以喜欢jQuery）
+//					$(this).css("backgroundColor","pink").siblings().css("backgroundColor",'');
+				})
+				
+				//2.
+				$("ul").mouseout(function(){
+					
+					$(this).children().css("backgroundColor","");
+					
+				})
+				
+			})
+		</script>
+	</head>
+	<body>
+		<ul>
+			<li>第1个li的内容</li>
+			<li>第2个li的内容</li>
+			<li>第3个li的内容</li>
+			<li>第4个li的内容</li>
+			<li>第5个li的内容</li>
+			<li>第6个li的内容</li>
+			<li>第7个li的内容</li>
+			<li>第8个li的内容</li>
+		</ul>
+	</body>
+</html>

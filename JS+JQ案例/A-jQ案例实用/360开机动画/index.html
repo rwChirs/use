@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+        .box {
+            width: 322px;
+            position: fixed;
+            bottom: 0;
+            right: -322px;
+            overflow: hidden;
+            opacity: 0;
+        }
+		#bottomPart {
+			height: 0;
+		}
+        span {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 30px;
+            height: 20px;
+            cursor: pointer;
+        }
+    </style>
+    <script src="../jquery-1.12.4.js"></script>
+    <script type="text/javascript">
+    	
+    	$(function(){
+    		
+    		// 分析思路：
+    		// 单击关闭按钮  先让下面的div  高度变为0  然后再让整个大的box盒子 向右移动 出去 同时再加一个透明度变为0
+    		
+    		$("#box").animate({
+    					right:0,
+    					opacity:1
+    		},800,function(){
+    			$("#bottomPart").animate({height:101},500);
+    		})
+    		
+    		
+    		
+    		
+    		
+    		
+    		$("#closeButton").click(function(){
+    			
+    			$("#bottomPart").animate({height:0},500,function(){
+    				
+    				$("#box").animate({
+    					right:-322,
+    					opacity:0
+    				},800);
+    				
+    			})
+    			
+    		})
+    		
+    	})
+    	
+    </script>
+	</head>
+	<body>
+		<div class="box" id="box">
+			<span id="closeButton"></span>
+			<div class="hd" id="headPart">
+				<img src="images/t.jpg" alt="">
+			</div>
+			<div class="bd" id="bottomPart">
+				<img src="images/b.jpg" alt="">
+			</div>
+		</div>
+	</body>
+</html>

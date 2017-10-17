@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="tab.css" />
+		<script src="jquery-1.12.4.js"></script>
+		<script src="jquery.tab.js"></script>
+		<script >
+			
+			$(function(){
+				
+				$("#box").tab();// 按钮上面的文字  div里面的内容 事件
+				
+				$("#box2").tab({
+					"btnVal":["新闻","娱乐","体育"],
+					"divCon":["新闻111","娱乐222","体育333"],
+					"evType":"mouseover"
+				})
+				$("#box3").tab({
+					"btnVal":["新闻","娱乐","体育","科技"],
+					"divCon":["新闻111","娱乐222","体育333","科技444"]
+				})
+				
+			})
+			
+		</script>
+	</head>
+	<body>
+		<div id="box"></div>
+		<div id="box2"></div>
+		<div id="box3"></div>
+	</body>
+</html>

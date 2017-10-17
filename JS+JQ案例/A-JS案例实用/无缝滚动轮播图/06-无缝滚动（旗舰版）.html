@@ -1,0 +1,332 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>无标题文档</title>
+    <style type="text/css">
+        * {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            border: 0;
+        }
+
+        .all {
+            width: 500px;
+            height: 200px;
+            padding: 7px;
+            border: 1px solid #ccc;
+            margin: 100px auto;
+            position: relative;
+        }
+
+        .screen {
+            width: 500px;
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .screen li {
+            width: 500px;
+            height: 200px;
+            overflow: hidden;
+            float: left;
+        }
+
+        .screen ul {
+            position: absolute;
+            left: 0;
+            top: 0px;
+            width: 3000px;
+        }
+
+        .all ol {
+            position: absolute;
+            right: 10px;
+            bottom: 10px;
+            line-height: 20px;
+            text-align: center;
+        }
+
+        .all ol li {
+            float: left;
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border: 1px solid #ccc;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        .all ol li.current {
+            background: yellow;
+        }
+
+        #arr {
+            display: none;
+        }
+        #arr span {
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            left: 5px;
+            top: 50%;
+            margin-top: -20px;
+            background: #000;
+            cursor: pointer;
+            line-height: 40px;
+            text-align: center;
+            font-weight: bold;
+            font-family: '黑体';
+            font-size: 30px;
+            color: #fff;
+            opacity: 0.3;
+            border: 1px solid #fff;
+        }
+
+        #arr #right {
+            right: 5px;
+            left: auto;
+        }
+    </style>
+    <script>
+        window.onload = function () {
+            //需求：无缝滚动轮播图;
+                    //原理：复制第一张到最末尾，第二轮从第一张滑向第二张的时候瞬间闪动动第一张；
+
+            //需求1：复制ul里第一张li添加到ul最末尾，根据ul里面li的个数添加ol里面的li；点亮ol里面第一个li;
+            //需求2：鼠标放到ol里面的li，让ul移动;（案例1）
+            //需求3：点击右侧按钮，让ul向左移动；（案例2+无缝滚动原理）
+            //需求4：点击左侧按钮，让ul向右移动；（案例2+无缝滚动原理）（逻辑和右侧相反）
+            //需求5：添加定时器，清除定时器；(逻辑和右侧按钮一样)
+
+
+            //获取相关元素
+            var box = document.getElementById("all");
+            var screen = document.getElementById("screen");
+            var imgWidth = screen.offsetWidth;
+            var ul = document.getElementById("ul");
+            var ulLiArr = ul.children;
+            var ol = document.getElementById("ol");
+            var arr = document.getElementById("arr");
+            var left = document.getElementById("left");
+            var right = document.getElementById("right");
+
+            //需求1：根据ul里面li的个数添加ol里面的li；点亮ol里面第一个li;复制ul里第一张li添加到ul最末尾;
+            //根据ul里面li的个数添加ol里面的li
+            for(var i=0;i<ulLiArr.length;i++){
+                var li = document.createElement("li");
+                li.innerHTML = i+1;
+                ol.appendChild(li);
+            }
+            //点亮ol里面第一个li;
+            var olLiArr = ol.children;
+            olLiArr[0].className = "current";
+
+            //复制ul里第一张li添加到ul最末尾
+            var newLi = ulLiArr[0].cloneNode(true);//深层赋值
+            ul.appendChild(newLi);
+
+
+            //需求2：鼠标放到ol里面的li，让ul移动;（案例1）
+            for(var i=0;i<olLiArr.length;i++){
+                //自定义属性绑定索引值
+                olLiArr[i].index = i;
+                olLiArr[i].onmouseover = function () {
+                    //1.点亮盒子；   2.移动ul；
+                    for(var j=0;j<olLiArr.length;j++){
+                        olLiArr[j].className = "";
+                    }
+                    this.className = "current";//排他思想
+                    //2.移动ul；
+                    var sss = -imgWidth*this.index;
+                    animate(ul,sss);
+                    //bug2: 当前第五张，滑向第一张；
+                    console.log(this.index);
+                    if(square === 4 && this.index === 0){
+                        animate(ul,sss-imgWidth*(ulLiArr.length-1));
+                    }
+                    if(square === 4 && this.index === 1){
+                        animate(ul,-imgWidth*(ulLiArr.length-1), function () {
+                            ul.style.left = 0;
+                            animate(ul,-imgWidth*1);
+                        });
+                    }
+                    if(key === 5 && (this.index ==1 ||this.index ==2 ||this.index ==0)){
+                        ul.style.left = 0;
+                        animate(ul,-imgWidth*this.index);
+                    }
+                    //bug1: 小方块移动ul之后，索引值没有通知key和square;
+                    key = this.index;
+                    square = this.index;
+                }
+            }
+
+
+
+            //需求3：点击右侧按钮，让ul向左移动；（案例2+无缝滚动原理）
+                    //原理：复制第一张到最末尾，第二轮从第一张滑向第二张的时候瞬间闪动动第一张；
+                        //步骤：先按照案例2做左右焦点图;(索引值要自己定义了)
+                            //图片个数和小方块个数不符;所以各自定义一个索引值;
+
+            var key = 0;//图片的索引值;
+            var square = 0;//小方块的索引值;
+            //右侧按钮，绑定事件
+            right.onclick = autoPlay;//右侧逻辑被封装了...
+
+
+
+            //需求4：点击左侧按钮，让ul向右移动；（案例2+无缝滚动原理）（逻辑和右侧相反）
+            left.onclick = function () {
+                //逻辑相反
+                //索引值自增;
+                key--;
+                square--;
+                //key和square不能随意自减要收到约束
+                //square最小索引值为0；超过这个值,等于-1的时候改为4；显示最后一个;
+                if(square === -1){
+                    square = olLiArr.length-1;
+                }
+                //key的最小索引值为0；超过这个值，等于-1的时候，改为4；显示倒数第二个;
+                if(key === -1){
+                    //瞬间闪动到倒数第一张，在从倒数第一张滑向倒数第二张；
+                    ul.style.left = -(ulLiArr.length-1)*imgWidth+"px";//显示倒数第一张，left值就为：-5张图片的宽；
+                    key = ulLiArr.length-2;
+                }
+
+                //1.点亮盒子;    2.移动ul；
+                for(var j=0;j<olLiArr.length;j++){
+                    olLiArr[j].className = "";
+                }
+                //不能在用this，用索引值来做;
+                olLiArr[square].className = "current";
+                //2.移动ul；
+                var sss = -imgWidth*key;
+                animate(ul,sss);
+            }
+
+            //需求5：添加定时器，清除定时器；(逻辑和右侧按钮一样)
+            var timer = setInterval(autoPlay,1500);
+
+            //鼠标进入显示移开隐藏；
+            box.onmouseenter = function () {//onmouseover和onmouseenter一样只不过一个支持冒泡，一个不支持冒泡；
+                arr.style.display = "block";
+                clearInterval(timer);
+            }
+            box.onmouseleave = function () {//onmouseout和onmouseleave一样只不过一个支持冒泡，一个不支持冒泡；
+                arr.style.display = "none";
+                timer = setInterval(autoPlay,1500);
+            }
+
+
+
+
+
+
+            //右侧按钮逻辑
+            function autoPlay() {
+                //索引值自增;
+                key++;
+                square++;
+                //key和square不能随意自增要收到约束
+                //square最大索引值为4；超过这个值,等于5的时候改为0；显示第一个;
+                if(square === olLiArr.length){
+                    square = 0;
+                }
+                //key的最大索引值为5；超过这个值，等于6的时候，改为1；显示第二个;
+                if(key === ulLiArr.length){
+                    //瞬间闪动到第一张，在从第一张滑向第二张；
+                    ul.style.left = 0;//显示第一张，left值就为0；
+                    key = 1;
+                }
+
+                //1.点亮盒子;    2.移动ul；
+                for(var j=0;j<olLiArr.length;j++){
+                    olLiArr[j].className = "";
+                }
+                //不能在用this，用索引值来做;
+                olLiArr[square].className = "current";
+                //2.移动ul；
+                var sss = -imgWidth*key;
+                animate(ul,sss);
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //匀速动画封装(1.让那个元素移动;  2.移动到哪里)
+        function animate(ele,target,fn) {
+            //使用定时器之前，清除定时器；保证一个盒子一个定时器；多出触动事件也必须只有一个定时器;
+            clearInterval(ele.timer);
+            ele.timer = setInterval(function () {
+                //BUG1: 目标位置如果在前面步长为正数，在后面步长为负数;
+                var step = target>ele.offsetLeft?10:-10;
+                //赋值(走过了，可以在退回来)
+                ele.style.left = ele.offsetLeft + step + "px";
+                //判断：到达目标位置就清除定时器；
+                if(Math.abs(target-ele.offsetLeft) <= Math.abs(step)){
+                    ele.style.left = target+"px";
+                    clearInterval(ele.timer);
+                    if(fn){
+                        fn();
+                    }
+                }
+            },13);
+        }
+    </script>
+</head>
+
+<body>
+
+    <!--外部盒子-->
+    <div class="all" id='all'>
+        <!--内部盒子-->
+        <div class="screen" id="screen">
+            <!--图片们-->
+            <ul id="ul">
+                <li><img src="images/1.jpg" width="500" height="200"/></li>
+                <li><img src="images/2.jpg" width="500" height="200"/></li>
+                <li><img src="images/3.jpg" width="500" height="200"/></li>
+                <li><img src="images/4.jpg" width="500" height="200"/></li>
+                <li><img src="images/5.jpg" width="500" height="200"/></li>
+            </ul>
+            <!--小方块-->
+            <ol id="ol">
+
+            </ol>
+            <!--小三角-->
+            <div id="arr">
+                <span id="left"><</span>
+                <span id="right">></span>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>
+

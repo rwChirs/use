@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<style>
+	body {
+		perspective:1000px;
+	}
+	section {
+		width: 300px;
+		height: 200px;
+		margin: 100px auto;
+		background:url(images/li.png) no-repeat;
+		background-size: cover;
+		position: relative;
+		transform-style: preserve-3d;
+		transition:all 2s linear;
+			}
+	section:hover {
+		transform: rotateY(360deg);
+		/*transform: rotate3d(100px,200px,150px,360deg);*/
+	}
+	section div {
+		width: 100%;
+		height: 100%;
+		background: url(images/3.jpg) no-repeat;
+		background-size: cover;
+		position: absolute;
+		left: 0;
+		top: 0;
+	}
+	
+	section div:nth-child(1){
+		transform: rotateY(0deg) translateZ(400px);
+
+	}
+	section div:nth-child(2) {
+		transform: rotateY(60deg) translateZ(400px);
+
+	}
+	section div:nth-child(3) {
+		transform: rotateY(120deg) translateZ(400px);
+
+	}section div:nth-child(4) {
+		transform: rotateY(180deg) translateZ(400px);
+
+	}section div:nth-child(5) {
+		transform: rotateY(240deg) translateZ(400px);
+
+	}section div:nth-child(6) {
+		transform: rotateY(300deg) translateZ(400px);
+
+	}
+</style>
+<body>
+	<div>
+1	BFC(块级格式化上下文)
+		(Block formatting context)
+	
+	就是一个封闭的区域，内部的孩子怎么动都不会影响外面
+
+	1.1 元素的显示模式 display 
+
+		分为块级元素 行内元素 行内块元素
+
+		具有BFC的条件:属性为 block, list-item, table 的元素
+
+	1.2 添加如下属性就可以触发BFC
+		-float属性不为none
+	
+		-position为absolute或fixed
+	
+		-display为inline-block, table-cell, table-caption, flex, inline-flex
+	
+		-overflow不为visible
+
+	1.3 BFC元素所具有的特性		一个独立的渲染区域
+
+		BFC布局规则特性：
+		1.在BFC中，盒子从顶端开始垂直地一个接一个地排列.
+		2.盒子垂直方向的距离由margin决定。属于同一个BFC的两个相邻盒子的margin会发生重叠
+		3.在BFC中，每一个盒子的左外边缘（margin-left）会触碰到容器的左边缘(border-left)（对于从右到左的格式来说，则触碰到右边缘）。
+		4. BFC的区域不会与浮动盒子产生交集，而是紧贴浮动边缘。
+		5. 计算BFC的高度时，自然也会检测浮动或者定位的盒子高度。
+
+	1.4 BFC的主要用途
+		(1) 清除元素内部浮动
+
+		只要把父元素设为BFC就可以清理子元素的浮动了，最常见的用法就是在父元素上设置overflow: hidden样式，对于IE6加上zoom:1就可以了。
+
+		使用：计算BFC的高度时，自然也会检测浮动或者定位的盒子高度。
+
+		(2) 解决外边距合并问题
+		
+		使用：盒子垂直方向的距离由margin决定。属于同一个BFC的两个相邻盒子的margin会发生重叠
+		那么我们创建不属于同一个BFC，就不会发生margin重叠了。
+
+		(3) 制作右侧自适应的盒子问题
+
+		使用：普通流体元素BFC后，为了和浮动元素不产生任何交集，顺着浮动边缘形成自己的封闭上下文
+
+	1.5 BFC 总结
+		BFC就是页面上的一个隔离的独立容器，容器里面的子元素不会影响到外面的元素。反之也如此。包括浮动，和外边距合并等等，因此，有了这个特性，我们布局的时候就不会出现意外情况了。
+
+
+
+2	优雅降级和渐进增强
+	
+	2.1 渐进增强 progressive enhancement
+		针对低版本浏览器进行构建页面，保证最基本的功能，然后再针对高级浏览器进行效果、交互等改进和追加功能达到更好的用户体验。
+
+	2.2 优雅降级 graceful degradation
+		一开始就构建完整的功能，然后再针对低版本浏览器进行兼容。
+
+	区别：渐进增强是向上兼容，优雅降级是向下兼容。
+
+	《面试题》：工作中你遇到过什么兼容问题？如何解决的
+	例如
+		1.有的图片不显示 把图片转化为块元素
+		2.h5新增的标签会有兼容问题！
+			1）把这些便签转化为块元素 display：block！
+			2）引入第三方插件！也就是引入一个js插件
+									js重要的兼容 在印象笔记！
+
+3	浏览器前缀
+	
+	-webkit-		Google Chrome, Safari, Android Browser
+	-moz-			Firefox
+	-o-				Opera
+	-ms-			Internet Explorer, Edge
+	-khtml-			Konqueror
+
+
+4	背景渐变
+
+	<!-- （1）background:-webkit-linear-gradient(渐变的起始位置， 起始颜色， 结束颜色)； -->
+	background: linear-gradient(top, red, green);
+    background: -webkit-linear-gradient(top, red, green);
+    background: -moz-linear-gradient(top, red, green);
+    <!-- 因为背景渐变 兼容性问题很严重， 必须在前面添加浏览器的私有前缀 --> 
+
+	<!-- （2）background:-webkit-linear-gradient(渐变的起始位置， 颜色 位置， 颜色位置....)； -->
+	background: -webkit-linear-gradient(top, red 0%, green 20%, blue 80%);
+    background: -moz-linear-gradient(left, red 0%, green 50%, skyblue 80%,  hotpink 100%)
+
+
+5	CSS W3C 统一验证工具
+
+	CssStats 是一个在线的 CSS 代码分析工具			http://www.cssstats.com/
+	W3C 统一验证工具   						 http://validator.w3.org/unicorn/  
+
+
+6	CSS 压缩
+
+	 w3c css压缩   
+	 http://tool.chinaz.com/Tools/CssFormat.aspx   网速比较慢
+
+	 还可以去站长之家进行快速压缩
+	 http://tool.chinaz.com/Tools/CssFormat.aspx  
+	</div>
+
+
+
+
+7	<section>
+		<div></div>
+		<div></div>
+		<div></div>
+		<div></div>
+		<div></div>
+		<div></div>
+	</section>
+	
+</body>
+</html>

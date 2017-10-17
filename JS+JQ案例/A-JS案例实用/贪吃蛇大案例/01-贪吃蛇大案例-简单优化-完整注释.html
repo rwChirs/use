@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        #map {
+            width: 800px;
+            height: 600px;
+            position: relative;
+            background-color: #cccccc;
+            margin: 10px auto;
+        }
+    </style>
+    <!-- 第一步 搭建页面 -->
+    <!-- 第二步 考虑食物对象 food      -->
+        <!-- 属性：位置（x，y）、width、height、color    -->
+        <!-- 方法：渲染到render 随机将食物放置(添加)在mapdiv盒子里面  --> 
+    <!-- 第三步 把蛇抽象成一个对象 -->
+	    <!-- 属性：width height 方向 -->
+	        <!-- body蛇的组成部分（头 两个身子） -->
+	    <!-- 方法：render 把蛇放入页面中  -->
+	<!-- 第四步 把蛇和食物以及map对象 分别实现具体代码 -->
+	    <!-- 把整体的游戏抽象成一个对象 让蛇和食物以及map统一到游戏对象支配 -->
+	    <!-- 游戏对象： -->
+	        <!-- 属性：食物 蛇 地图 -->
+	        <!-- 方法：开始游戏的方法  （统一调用食物渲染 和蛇的渲染 以及其他的方法） -->
+	        <!-- new Game(); -->
+	        <!-- Game.start(); -->
+	<!-- 第五步 设置蛇的移动方法 -->        
+    <!-- 第六步 让蛇动起来-->
+    <!--第七步 是否撞墙和添加键盘控制-->	
+</head>
+
+<body>
+    <div id="map"></div>
+</body>
+
+<!--把三个script合并后，要在每个闭包前加分号-->
+<!-- js内部格式 -->
+<script>
+    //一、函数自调用方法构建函数 封装食物对象
+    ;(function(window){
+    	
+    	//建立一个数组 用来存往页面上放置的蛇的组成部分
+        var ele = [];   //空数组
+    	
+    //二、把食物抽象成一个对象 构造函数（属性和方法）
+        function Food(x,y,width,height,color){
+            //做一个默认处理 如果传入数据 按照传入的来 都会按照默认的走
+            
+        //1.属性:
+            this.x = x || 0;
+            this.y = y || 0;
+            this.width = width || 20;
+            this.height = height || 20;
+            this.color = color || "green";
+            //初始化一个变量为空对象 后续用来存创建好的食物
+            // this.obj = null;//取消这个，在下面定义oDiv
+        }
+        
+        //拓展：增加随机颜色
+        function randColor() {
+			return "rgb("+Math.round(Math.random()*255)+","+Math.round(Math.random()*255)+","+Math.round(Math.random()*255)+")"
+		}
+        
+        //2.方法：渲染方法将食物创建出来 放在map上
+        Food.prototype.render = function(map){  //这边要接收map
+            
+            //在生成新的食物之前 先将原来页面上食物删除掉
+				remove();//调用下面写的方法
+            
+            //创建食物div 
+            // this.obj = document.createElement("div");//这里取消掉
+            var oDiv = document.createElement("div");
+            
+            //位置是随机的
+            //这里不定义了，直接this指代
+            this.x = Math.round(Math.random()*(map.offsetWidth/this.width))*this.width; //Math.random()*(map.offsetWidth/this.width)//Math.random()说的是随机0-1的随机数；//(map.offsetWidth/this.width)这个求的是格子宽度的个数即范围；//两者相乘的就是说随机这个范围内的数
+            this.y = Math.round(Math.random()*(map.offsetHeight/this.height))*this.height;
+
+            //将this对象上面的数据 依次 赋给食物
+            oDiv.style.left = this.x + "px";
+            oDiv.style.top = this.y + "px";
+            //给食物变成绝对定位
+            oDiv.style.position = "absolute";
+            oDiv.style.width = this.width + "px";   
+            oDiv.style.height = this.height + "px";
+
+            oDiv.style.backgroundColor = this.color;
+            //最后要把这个食物div 放入页面中map里面
+            map.appendChild(oDiv);
+            
+            //再循环渲染当中 只要 加进去一个蛇的部位 那么就将这个部位存到ele数组
+            //将这个放入页面的div食物，存入ele数组
+            ele.push(oDiv);
+        }
+
+		//删除食物，因为吃过了
+        //如果你要是不想挂载到对象身上  不想暴露到外面 去  指向在内部用一下 可以建立 私有方法
+        // 属于当前食物环境里面的私有方法  //也可以写成Food.prototype.move = 
+        function remove(){
+            for(var i=0;i<ele.length;i++){
+                ele[i].parentNode.removeChild(ele[i]);
+            }       //removeChild父节点删除子节点
+            ele = [];
+        }
+
+        window.Food = Food;
+    })(window);
+</script>
+
+<!-- 定义蛇 -->
+<script>
+    //把全局的window和之前的食物对象 传入进去 需要的时候用
+    ;(function(window,Food){//食物对象在这里还需要结合使用//不传的话，里面用的时候就得window.Food，不传也可以
+    	
+    		// 建立一个数组 用来存往页面上放置的蛇的组成部分
+			var ele = [];
+    	
+        //把蛇抽象成一个对象 
+        //属性：width height 方向
+            //body蛇的组成部分（头 两个身子）
+        //方法：render 把蛇放入页面中
+
+        function Snake(width,height,direction){
+        //属性：
+            //蛇的宽高
+            this.width = width || 20;
+            this.height = height || 20;
+            //设定一个蛇的方向 默认为右
+            this.direction = direction || "right";
+            //蛇的身体 建立一个数组 用来存三节身 每一个部位 都有颜色color和位置（x,y）
+            this.body = [
+                {x:3,y:2,color:"red"},  //3和2好控制，一会乘20就行了
+                {x:2,y:2,color:"orange"},
+                {x:1,y:2,color:"orange"}//1覆盖2,2覆盖3，设置前走，头没设置，下面设置
+                // {}//这个身体要和上面x：1的一样，是吃掉食物增加身体
+            ];
+        }
+        //方法：
+        Snake.prototype.render = function(map){
+        	
+        	// 渲染之前先删除原来的页面上的蛇
+				remove();
+        	
+            //根据蛇的身体这个数组 来循环生成蛇 //就是蛇有几节
+            for(var i=0;i<this.body.length;i++){    //length是3
+                var oDiv = document.createElement("div");   //这个div当蛇
+				
+				if(i==0){
+                    oDiv.style.zIndex = 2;  //使头在最上面
+                }
+				
+                oDiv.style.width = this.width + "px";
+                oDiv.style.height = this.height + "px";
+                oDiv.style.position = "absolute";
+                //让div生成的这部分 位置 等于body里面的坐标 依次循环赋值
+                oDiv.style.left = this.body[i].x*this.width + "px"; //第0个对应的x就是3，还要乘与宽度
+                oDiv.style.top = this.body[i].y*this.height + "px";
+                oDiv.style.backgroundColor = this.body[i].color;
+                map.appendChild(oDiv);
+                
+                // 在循环渲染当中 只要 加进去一个蛇的部位 那么就将这个部位存到ele数组
+                ele.push(oDiv);
+                
+            }
+        }
+        
+        // 建立一个私有的方法成员 用来删除页面上原来的蛇的身体
+        function remove() {
+            for(var i = 0; i < ele.length; i++) {
+                ele[i].parentNode.removeChild(ele[i]);
+            }
+            ele = [];
+        }
+
+
+//想要让蛇移动：需要将蛇的每一部分都往前挪一下
+        Snake.prototype.move = function(food){  //移动里面传食物，通过定时器
+            //让蛇 除了头    其他身体都已经往前挪了
+            for(var i=this.body.length-1;i>0;i--){  //这个赋值问题？
+                this.body[i].x = this.body[i-1].x;
+                this.body[i].y = this.body[i-1].y;
+            }
+
+            //头往哪走 取决于方向direction
+            switch(this.direction){
+
+                case "left":
+                    this.body[0].x -= 1;    //左走就是往回走，应该-1
+                break;
+                case "right":
+                    this.body[0].x += 1;
+                break;
+                case "up":
+                    this.body[0].y -= 1;
+                break;
+                case "down":
+                    this.body[0].y += 1;    //向下走y越来越大
+                break;                
+            }
+
+    	//检测是否碰到食物 如果碰到食物 则自身加一个最后的身体 让map上食物删除，重新生成一个随机的新的食物
+            //获取一下当前的蛇的头部坐标
+            var headX = this.body[0].x * this.width;
+            var headY = this.body[0].y * this.height;
+
+            //判断是否碰撞上了食物
+            if(headX == food.x && headY == food.y){ //这里传上食物了
+                //如果碰上了 则让自己的身体长一部分
+                //将原来的身体的最后一部分 存起来
+                var last = this.body[this.body.length-1];   //这个定义最后一节存起来
+
+                //往数组body里面添加进去最后一部分 最后效果就是增加了一节
+                this.body.push({
+                    x:last.x,
+                    y:last.y,
+                    color:last.color
+                })
+				
+				//如果蛇已经把食物吃了 那么则食物应该删除 重新生成新的食物 //去找食物js
+                food.render(map);   //需要传map，方法上面传完，这边才能传
+                
+            }
+
+        }
+        
+        
+        window.Snake = Snake;
+    })(window,Food);
+</script>
+
+<!-- 构建游戏 -->
+<script>
+    ;(function(window,Food,Snake){
+        //游戏构造函数
+        function Game(map){
+            //分别把之前写法的食物对象和蛇对象 实例化之后挂载到当前构造函数的属性下面
+            //map也加过来
+        //属性：
+            this.Food = new Food();//this.Food.render();
+            this.Snake = new Snake();
+            this.map = map;
+        }
+        //方法：
+        Game.prototype.start = function(){
+            this.Food.render(this.map); //需要这样传map，这个地方老师开始没写，报错
+            this.Snake.render(this.map);
+            
+            //下面让蛇走起来
+            runSnake(this);
+            bindKey(this);
+            
+        }
+        
+        //建立一个私有的方法 runSnake 让蛇走起来
+        function runSnake(that){
+        	
+            // var that = this;//this是window，所以上面传this，下面接收，老师又报错了
+            
+            var timer = setInterval(function(){
+                //定时器里面的this有问题 指向window 所以用that
+
+                that.Snake.move(that.Food,that.map);    //是that的move方法
+                //运动一下 让蛇重新在页面上渲染一下
+                //这个渲染方法里面 蛇的位置 是根据body里面的数据渲染的 那么原来页面上的蛇还在
+                //让新的蛇在页面上放置之前 需要将原来页面上放置过的蛇 删除掉
+                that.Snake.render(that.map);
+	
+				
+				//判断是否撞墙
+
+                //用头的坐标 和map地图边界进行判断
+                var headX = that.Snake.body[0].x*that.Snake.width;
+                var headY = that.Snake.body[0].y*that.Snake.height;
+                //地图的最右边 和最下面
+                var maxX = that.map.offsetWidth - that.Snake.width;	
+                var maxY = that.map.offsetHeight - that.Snake.height;
+
+                //从四个边界 判断是否撞墙
+                if(headX < 0 || headX > maxX){    //老师又报错了，应该小于不等于0
+                    clearInterval(timer);//停止蛇的运动
+                    alert("Game Over");
+                }
+                if(headY < 0 || headY > maxY){
+                    clearInterval(timer);//停止蛇的运动
+                    alert("Game Over");
+                }
+                
+                
+                //优化更改
+//              var maxX  = that.map.offsetWidth ;
+//				var maxY = that.map.offsetHeight ;
+//				if(headX <0 || headX >= maxX) {
+//					clearInterval(timer);//停止蛇的运动
+//					alert("哎呦，撞死啦");
+//				}
+//				if(headY < 0 || headY >= maxY) {
+//					clearInterval(timer);//停止蛇的运动
+//					alert("哎呦，撞死啦");
+//				}
+                
+            },200)
+
+        }
+        
+        
+        //私有方法 绑定键盘事件
+        function bindKey(that){
+
+            document.addEventListener("keydown",function(e){//事件对象传入
+                e = e || event;
+                // console.log(e.keyCode)
+                //37 左键 38 上键   39 右键   40 下键
+
+                switch(e.keyCode){
+                    case 37:
+                        that.Snake.direction = "left";
+                        // if(that.Snake.direction != "right"){
+                        //     that.Snake.direction = "left";
+                        // }
+                    break;
+                    case 38:
+                        that.Snake.direction = "up";
+                    break;
+                    case 39:
+                        that.Snake.direction = "right";
+                    break;
+                    case 40:
+                        that.Snake.direction = "down";
+                    break;                
+                }
+
+
+            },false);//默认冒泡
+
+        }        
+        
+        
+        window.Game = Game;
+    })(window,Food,Snake);
+
+</script>
+
+
+
+
+
+<!-- 调用 -->
+<script>
+	
+    //获取地图，要把map往渲染里面传
+    var oMap = document.getElementById("map");
+    
+//  // 地图和食物连接
+//  var food = new Food();  //不要在这传map，要不上面都要加this.render（map）而且Food函数名后（）里出了属性也要加map，很繁琐
+//                      //用这个实例去调用render方法
+//  food.render(oMap);  //食物要被渲染方法，要把map传到这，主动渲染
+//  //蛇
+//  var s1 = new Snake();
+//  s1.render(oMap);
+
+    //隐去食物和蛇调用，游戏统一调用
+    var game = new Game(oMap);
+    game.start();
+    
+    
+    
+</script>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="../jquery-1.12.4.js"></script>
+		<script type="text/javascript">
+			
+			$(function(){
+				
+				// 给input添加获取焦点事件  当input获取焦点之后  让里面的内容清空
+				$("input").focus(function(){
+					
+					//如果是初始化的内容 则清空
+					if($(this).val() == "请您输入内容"){
+						$(this).val("");
+					}
+					
+				});
+				
+				// 给input添加失去焦点事件  当input失去焦点之后  判断如果没有输入任何内容 则还原回去初始化的内容
+				$("input").blur(function(){
+					//如果没有输入任何内容 则还原回去最初的文本
+					if($(this).val() == ""){
+						$(this).val("请您输入内容");
+					}
+					
+				})
+				
+			})
+		</script>
+		</head>
+	<body>
+		<input type="text" value="请您输入内容" />
+	</body>
+</html>

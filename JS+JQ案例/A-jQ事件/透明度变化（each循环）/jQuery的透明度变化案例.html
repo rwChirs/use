@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			ul li{
+				list-style: none;
+				width: 200px;
+				height: 200px;
+				background-color: pink;
+				float: left;
+				margin:0 20px 20px 0;
+				text-align: center;
+				line-height: 200px;
+			}
+		</style>
+		<script src="jquery-1.12.4.js"></script>
+		<script type="text/javascript">
+//			var i = 1;
+			$(function(){
+//				i++;
+				//$("ul li").css("opacity",0.1*i)
+				$("ul li").each(function(i,ele){	//支持匿名函数	（索引,元素）
+					
+					console.log(i);
+					console.log(ele);
+					//ele.style.opacity = (i+1)/10;
+					$(ele).css("opacity",0.1*(i+1)).html("第"+(i+1)+"个li");
+					
+				})
+			})
+			
+		</script>
+	</head>
+	<body>
+		<ul>
+			<li>什么也看不见</li>
+			<li>什么也看不见</li>
+			<li>什么也看不见</li>
+			<li>什么也看不见</li>
+			<li>什么也看不见</li>
+			<li>什么也看不见</li>
+			<li>什么也看不见</li>
+			<li>什么也看不见</li>
+			<li>什么也看不见</li>
+			<li>什么也看不见</li>
+		</ul>
+	</body>
+</html>

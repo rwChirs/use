@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			div {
+				width: 280px;
+				height: 200px;
+				border: 1px solid black;
+				display: none;
+			}
+			.active{
+				background-color: red;
+			}
+			
+		</style>
+		<script src="jquery-1.12.4.js"></script>
+		<script type="text/javascript">
+			
+			/*window.onload=function(){
+				
+				var aInp = document.getElementsByTagName("input");
+				
+				var aDiv = document.getElementsByTagName("div");
+				
+				for(var i = 0; i < aInp.length; i++) {
+					
+					aInp[i].index = i;
+					aInp[i].onclick = function() {
+						for(var i = 0; i < aInp.length; i++) {
+							
+							aInp[i].className = "";
+							aDiv[i].style.display = "none";
+						}
+						
+						this.className  = "active";
+						aDiv[this.index].style.display = "block";
+					}
+					
+				}
+				
+			};*/
+			
+			$(function(){
+				// 给所有的input按钮加上单击事件
+				$('input').click(function(){
+					// 让当前的input加上类  让其他人 去掉类
+					$(this).addClass("active").siblings("input").removeClass("active");
+					// 让对应的索引的那个div 显示 让其他div隐藏
+					$("div").eq($(this).index()).show().siblings("div").hide();
+				})
+				
+			})
+			
+		</script>
+	</head>
+	<body>
+		<input type="button" value="按钮1" class="active" />
+		<input type="button" value="按钮2" />
+		<input type="button" value="按钮3" />
+		<div style="display: block;">第1个div</div>
+		<div>第2个div</div>
+		<div>第3个div</div>
+	</body>
+</html>

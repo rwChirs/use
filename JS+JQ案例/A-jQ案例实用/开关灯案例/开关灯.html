@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			img {
+				margin-left: 200px;
+			}
+		</style>
+		<!--1 先引入jQuery包-->
+		<script src="../jquery.min.js"></script>
+		<script type="text/javascript">
+			
+			// 2 书写入口函数
+			$(function(){
+				// 分析需求: 单击第一个按钮 让body背景变成白色
+				//		   单击第二个按钮 让body背景变成黑色
+				// 1 获取元素
+				// 单击第一个按钮 让body背景变成白色
+				$("input:eq(0)").click(function(){
+					// 具体的事情让body背景变成白色
+					$("body").css("backgroundColor","white");
+				});
+				
+				// 单击第二个按钮 让body背景变成黑色
+				$("input:eq(1)").click(function(){
+					
+					// 让body背景变成黑色
+					$("body").css("backgroundColor","black");
+				})
+			})
+		</script>
+	</head>
+	<body>
+		<input type="button" value="开灯" />
+		<input type="button" value="关灯" /><br />
+		<img src="09.jpg" alt="" />
+	</body>
+</html>

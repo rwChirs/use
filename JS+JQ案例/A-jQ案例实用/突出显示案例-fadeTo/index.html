@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        body {
+            background: #000;
+        }
+
+        .wrap {
+            margin: 100px auto 0;
+            width: 630px;
+            height: 394px;
+            padding: 10px 0 0 10px;
+            background: #000;
+            overflow: hidden;
+            border: 1px solid #fff;
+        }
+
+        .wrap li {
+            float: left;
+            margin: 0 10px 10px 0;
+
+        }
+
+        .wrap img {
+            display: block;
+            border: 0;
+        }
+    </style>
+	<script src="../../jquery-1.12.4.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+		$(document).ready(function(){
+			
+			// 功能分析: 鼠标移到到任意一个 li上 让当前的li的其他兄弟们 透明度变暗 0.3
+			//    当从整个wrap盒子上移出之后 全部恢复原来的透明度  1
+			
+			// 事件三部曲： 
+			// 1 获取事件源
+			$(".wrap ul li").mouseenter(function(){
+				//console.log("触发了li的移入事件");
+				$(this).stop().fadeTo(500,1).siblings().stop().fadeTo(500,0.3);
+				
+			});
+			
+			$(".wrap").mouseleave(function(){
+				//console.log("触发了wrap的移出事件");
+				$(this).find("li").stop().fadeTo(500,1);
+				
+			})
+			// 为什么会出现一闪一闪的问题？
+			// 和mouseout和mouseover事件有关
+			// 在js中 鼠标移上事件有两种  鼠标移出事件也有两种 
+			// mouseover / mouseout  触发该事件里面的子元素也会触发这两个事件 并且支持冒泡产生
+			// mouseenter / mouseleave  触发该事件里面的子元素不会触发这两个事件 并且不支持冒泡
+			// wrap移出--》li移入--wrap移出--wrap移出--li移入--wrap移出--wrap移出
+			// 进入li 它会认为移出了wrap, 接着触发li移入，从li移出 触发冒泡导致触发wrap移出
+			// 接着又进入li  触发wrap移出--li移入 --从li移出 冒泡 导致wrap移出---最后移出wrap
+			
+		})
+		
+	</script>
+	</head>
+	<body>
+		<div class="wrap">
+			<ul>
+				<li><a href="#"><img src="images/01.jpg" alt="" /></a></li>
+				<li><a href="#"><img src="images/02.jpg" alt="" /></a></li>
+				<li><a href="#"><img src="images/03.jpg" alt="" /></a></li>
+				<li><a href="#"><img src="images/04.jpg" alt="" /></a></li><li><a href="#"><img src="images/03.jpg" alt="" /></a></li>
+				<li><a href="#"><img src="images/05.jpg" alt="" /></a></li>
+				<li><a href="#"><img src="images/06.jpg" alt="" /></a></li>
+			</ul>
+		</div>
+	</body>
+</html>

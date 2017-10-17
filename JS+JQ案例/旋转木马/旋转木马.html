@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			/*初始化  reset*/
+			blockquote,body,button,dd,dl,dt,fieldset,form,h1,h2,h3,h4,h5,h6,hr,input,legend,li,ol,p,pre,td,textarea,th,ul{margin:0;padding:0}
+			body,button,input,select,textarea{font:12px/1.5 "Microsoft YaHei", "微软雅黑", SimSun, "宋体", sans-serif;color: #666;}
+			ol,ul{list-style:none}
+			a{text-decoration:none}
+			fieldset,img{border:0;vertical-align:top;}
+			a,input,button,select,textarea{outline:none;}
+			a,button{cursor:pointer;}
+			
+			.wrap{
+			    width:1200px;
+			    margin:10px auto;
+			}
+			.slide {
+			    height:500px;
+			    position: relative;
+			    
+			}
+			.slide li{
+			    position: absolute;
+			    left:200px;
+			    top:0;
+			}
+			.slide li img{
+			    width:100%;
+			}
+			.arrow{
+			    opacity: 0;
+			}
+			.prev,.next{
+			    width:76px;
+			    height:112px;
+			    position: absolute;
+			    top:50%;
+			    margin-top:-56px;
+			    background: url(./images/prev.png) no-repeat;
+			    z-index: 99;
+			}
+			.next{
+			    right:0;
+			    background-image: url(./images/next.png);
+			}
+
+		</style>
+	</head>
+	<body>
+		<div class="wrap" id="wrap">
+	       <div class="slide" id="slide">
+	           <ul>
+	               <li><a href="#"><img src="images/slidepic1.jpg" alt=""/></a></li>
+	               <li><a href="#"><img src="images/slidepic2.jpg" alt=""/></a></li>
+	               <li><a href="#"><img src="images/slidepic3.jpg" alt=""/></a></li>
+	               <li><a href="#"><img src="images/slidepic4.jpg" alt=""/></a></li>
+	               <li><a href="#"><img src="images/slidepic5.jpg" alt=""/></a></li>
+	           </ul>
+	           <div class="arrow" id="arrow">
+	               <a href="javascript:;" class="prev"></a>
+	               <a href="javascript:;" class="next"></a>
+	           </div>
+	       </div>
+	   </div>
+	</body>
+	<script src="animate.js"></script>
+	<script type="text/javascript">
+		// 功能1  需要将各个li （每个li中有图片）的位置 大小  以及透明度 还有层级关系调整一下
+		//        left   top   width （高度不调 根据宽自适应）（opacity filter） z-index 不一样
+		// 需要先把这些每个li的下面这些属性预先计算好 调整好 然后通过js 循环 赋值
+		// 建立一个数组 里面存下来 每一个li的对应的详细位置宽度透明度等变化数据
+		var aLiJson = [
+	        {  
+	            "width":400,
+	            "top":70,
+	            "left":50,
+	            "opacity":20,
+	            "z-index":2
+	        },
+	        {  
+	            "width":600,
+	            "top":120,
+	            "left":0,
+	            "opacity":60,
+	            "z-index":3
+	        },
+	        {   
+	            "width":800,
+	            "top":100,
+	            "left":200,
+	            "opacity":100,
+	            "z-index":4
+	        },
+	        {  
+	            "width":600,
+	            "top":120,
+	            "left":600,
+	            "opacity":60,
+	            "z-index":3
+	        },
+	        {   
+	            "width":400,
+	            "top":70,
+	            "left":750,
+	            "opacity":20,
+	            "z-index":2
+	        }
+	    ];
+	    
+	    // 获取页面上的所有的li
+	    var oSlide = document.getElementById("slide");
+	    var aLi = oSlide.getElementsByTagName("li");
+	    
+	    var oWrap = document.getElementById("wrap");
+	    var oArrow = document.getElementById("arrow");
+	    var aA = oArrow.getElementsByTagName("a");
+	    var prev = aA[0];
+	    var next = aA[1];
+	    
+	    // 建立一个开关 控制一下 单击的时间
+	    var flag = true;
+	    
+	    core();
+	    // 鼠标移到wrap身上 让arrow出来  让它的透明度为1 移开 透明度变回0
+	    oWrap.onmouseover = function() {
+	    	oArrow.className = "";
+	    }
+	    oWrap.onmouseout = function() {
+	    	oArrow.className = "arrow";
+	    }
+	    
+	    // 单击左侧按钮 
+	    prev.onclick = function() {
+	    	if(flag) {
+	    		flag = false;
+	    		core(true);
+	    	}
+	    		
+	    }
+	    
+	    next.onclick = function() {
+	    	if(flag) {
+	    		flag = false;
+	    		// 如果当前是真的，说明要么是第一次单击 要么之前的运动结束了
+	    		core(false);
+	    	}
+	    	
+	    		
+	    }
+	    
+	    
+	    function core(onOff) {
+	    	
+	    	// 判断 onOff是否未定义 如果是未定义 说明不做任何调整 直接初始化位置
+	    	if (onOff != undefined) {
+	    		// 如果是真的 说明单击了左侧按钮
+	    		if (onOff) {
+		    		// 将数组信息 做一个调整 把第一个位置 放到最后一个去
+		    		aLiJson.unshift(aLiJson.pop());
+		    	} else {
+		    	// 如果是真的 说明单击了右侧按钮	
+		    		aLiJson.push(aLiJson.shift());
+		    	}
+	    	}
+	    	
+	    	// 打开页面 做一个初始化的位置调整
+		    for(var i = 0; i < aLi.length; i++) {
+		    	animate(aLi[i],aLiJson[i],function(){
+		    		flag = true;
+		    	})
+		    }
+	    	
+	    }
+	</script>
+</html>

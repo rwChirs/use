@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	    <style>
+例1：
+        section {
+            width: 450px;
+            height: 300px;
+            border: 1px solid #000;
+            margin: 100px auto;
+            background: url(images/3.jpg) no-repeat;
+            position: relative;
+            perspective: 1000px;  /*给父盒子添加透视效果*/
+        }
+        .door-l, .door-r {
+            position: absolute;
+            top: 0;
+            width: 50%;
+            height: 100%;
+            background-color: pink;
+            transition: all 1s; /*两个门都做过渡效果*/
+            background: url(images/bg.png);
+
+
+        }
+        .door-l {
+            left: 0;
+            border-right: 1px solid #000;
+            transform-origin: left;/* 左侧盒子按照左边翻转*/
+        }
+        .door-r {
+            right: 0;
+            left: 1px solid #000;
+            transform-origin: right;/*  右侧盒子按照右边翻转*/
+        }
+        .door-l::before, .door-r::before {  /*伪元素 就是插入一个元素标签*/
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 20px;
+            height: 20px;
+            border: 1px solid #000;
+            border-radius: 50%; /*圆角*/
+            transform：translateY(-50%); /*translate 如果是百分比， 就是走自己高度的一半*/
+        }
+        .door-l::before {
+            right: 5px;
+        }
+        .door-r::before {
+            left: 5px;
+        }
+        /*鼠标经过section 盒子 两个门盒子 翻转 rotateY*/
+        section:hover .door-l {
+            transform: rotateY(-130deg);  /*因为往左边翻转，所以是负值*/
+        }
+        section:hover .door-r {
+            transform: rotateY(130deg);
+        }
+
+
+
+
+
+        例2：
+        div {
+            width: 100px;
+            height: 100px;
+            background-color: pink;
+            /*animation: go 2s ease 0s infinite alternate; 引用动画*/
+            animation: go 2s infinite; /*引用动画*/
+            /*animation:动画名称 动画时间 运动曲线  何时开始  播放次数  是否反方向;*/
+            /*动画名称是自己定义的 go google*/
+            /*infinite 无限循环*/
+            /*一般情况下，我们就用前2个 animation: go 2s*/
+        }
+        /*@keyframes go {}  定义动画*/
+        @keyframes go {
+            0% { /*起始位置，等价于 form*/
+                transform: translate3d(0, 0, 0) ;
+            }
+            25% {
+                transform: translate3d(800px, 0, 0);
+            }
+            50% {
+                transform: translate3d(800px, 400px, 0);
+
+            }
+            75% {
+                transform: translate3d(0, 400px, 0);
+
+            }
+            100% {
+                transform: translate3d(0, 0, 0);  /*100% 相当于结束位置 to*/
+
+            }
+        }
+       /* 动画结束之后会返回原来的位置！！！*/
+
+
+
+
+
+
+       例3：
+       img {
+            /*animation:动画名称 动画时间 运动曲线  何时开始  播放次数  是否反方向;*/
+            animation: car 5s infinite;  /*引用动画*/
+        }
+        /*定义动画*/
+        @keyframes car {
+            0% {
+                transform: translate3d(0, 0, 0);
+            }
+            50% {
+                transform: translate3d(1000px, 0, 0);
+            }
+            51% {
+                transform: translate3d(1000px, 0, 0) rotateY(180deg);
+                /*如果多组变形 都属于 tarnsform 我们用空格隔开就好了*/
+            }
+            99% {
+                transform: translate3d(0, 0, 0) rotateY(180deg);
+                /*如果多组变形 都属于 tarnsform 我们用空格隔开就好了*/
+            }
+
+        }
+
+
+
+
+
+
+        例4：
+        * {
+        margin: 0;
+        padding:0;
+    }
+        ul {
+            list-style: none;
+        }
+
+        nav {
+            width: 882px;
+            height: 86px;
+            border: 1px solid pink;
+            margin: 100px auto;
+            overflow: hidden;
+
+        }
+        nav li {
+            float: left;
+        }
+        nav ul {
+            width: 200%;
+            animation: moving 5s linear infinite; /*引用动画*/
+            /*linear 匀速动画*/
+        }
+        /*定义动画*/
+        @keyframes moving {
+            form {
+                transform: translateX(0);
+            }
+            to {
+                transform: translateX(-882px);
+            }
+        }
+        nav:hover ul {  /*鼠标经过nav 里面的ul 就暂停动画*/
+            animation-play-state:paused;  /*鼠标经过暂停动画*/
+        }
+
+
+
+
+
+
+
+
+    </style>
+</head>
+<body>
+	<div>
+
+	
+
+a:active 
+            鼠标没点击没有松开鼠标的时候触发的状态 相当于点击
+
+
+
+
+
+
+
+
+
+
+
+1	过渡
+	transition: 要过渡的属性  花费时间  运动曲线  何时开始;
+	
+	包括：过渡的属性  默认0  默认ease  0s（立马开始）
+
+	如	transition: all 1s;
+
+	运动曲线包含：linear 匀速	ease 逐渐慢下来	ease-in 加速	ease-out 减速	ease-in-out 先加速后减速
+	</div>
+
+	<div>
+2	2D变形
+			transform：加属性
+	位移、旋转、倾斜、缩放
+
+    2.1 
+    移动 translate(x,y)	    x、y可为负值
+    
+    如	    transform:translate(50px,50px);
+    	将文字或图像在水平方向和垂直方    向上分别垂直移动50像素
+    
+    <!-- [ translate(x,y)水平方向和垂    直方向同时移动（也就是X轴和Y轴同时    移动）
+     translateX(x)    仅水平方向移动（X轴移动）
+     translateY(Y)    仅垂直方向移动（Y轴移动）] -->
+    
+     注意：
+     重点使用translate给子绝定位减少自    己宽高的一半
+    
+     {
+     position: absolute;
+     left: 50%; /*以父级宽度为准*/
+            top: 50%;
+     transform: translate(-50%, -50%);
+     }
+    
+    
+    2.2
+    旋转 rotate(deg) 	单位是 deg     度数 
+    
+    如 	transform:rotate(45deg);
+    
+    度数越大，转的圈数角度越多
+    正值为顺时针，负值为逆时针
+    
+    （1） 当元素旋转以后，坐标轴也跟着    发生的转变
+    （2）     调整顺序可以解决，把旋转放到最后
+    （3） 注意单位是 deg 度数
+
+    2.2-1
+    backface-visibility
+
+	属性定义当元素不面向屏幕时是否可见。
+		翻转的延伸（设置一面隐藏）
+
+    如	父盒子	transform-style: 	preserve-3d;
+    <!-- 1）保留当前的空间位置2）使图片扁平化 -->
+
+		子盒子（被隐藏的盒子）	 
+		z-index: 1;
+        <!-- 让他显示在前面 -->
+		backface-visibility:hidden;  	
+        <!-- 不是正面对向屏幕，就隐藏 -->
+		然后加div：hover img{transform: rotateY(180deg)}
+    
+    
+    2.3
+    倾斜 skew(deg, deg)	    可为负值，第二个参数不写默认为0
+    
+    如  transform:skew(30deg,0deg);
+    
+    2.4
+    缩放 scale(x, y)
+    
+    如  transform:scale(0.8,1);
+    <!-- scale()    的取值默认的值为1，当值设置为0.01    到0.99之间的任何值，作用使一个元素    缩小；
+    而任何大于或等于1.    01的值，作用是让元素放大 -->
+    
+    
+    <!-- [scale(X,Y)使元素水平方向和垂    直方向同时缩放（也就是X轴和Y轴同时    缩放）
+    scaleX(x)    元素仅水平方向缩放（X轴缩放）
+    scaleY(y)    元素仅垂直方向缩放（Y轴缩放）] -->
+    
+    
+    2.5
+    可以调整元素转换变形的原点	    transform-origin
+    
+    <!-- 用于定位，代替margin-left等     -->
+     如果是4个角，可以用 left     top这些，如果想要精确的位置，     可以用  px 像素。
+    
+     如	 transform-origin: left top;
+    
+     如  transform-origin: 10px 10px;
+	
+
+
+
+
+3	3D变形(CSS3) transform
+
+	左手坐标系
+			x左边是负的，右边是正的
+	
+			y 上面是负的， 下面是正的
+	
+			z 里面是负的， 外面是正的
+	
+	1） 透视(perspective)
+		视距 眼睛到屏幕的距离
+		设置给父元素，作用于所有3D转换	的子元素
+		配合z轴旋转使用效果更好
+	
+		perspective: 1000px;
+		默认1000px，值越小，效果越明显
+		配合使用必加
+	
+	
+	2） translate3d(x,y,z)
+	
+	transfrom:translate3d(x,y,z);
+	x和y可以是px，可以是%，
+	z只能是px
+	必须全写，不能省略
+	
+	可以单值使用
+	translateX(x)（X轴移动）
+	translateY(y)（Y轴移动）
+	translateZ(z) 	直观表现形式就是大小变化
+	
+	例1：其和定位 延伸伪元素的配合使用
+	<section>
+	    <div class="door-l"></div>
+	    <div class="door-r"></div>
+	</section>
+	
+
+	
+	
+4	动画(CSS3) animation
+	
+	直接设置在盒子里
+
+	animation:动画名称 动画时间 	运动曲线  何时开始  播放次数  	是否反方向;
+	
+	如 animation: go 2s ease 0s infinite alternate;
+	意思：名称go	时间2s 	逐渐慢下来 立马开始 循环播放 先正再反的方向运行，并持续交替运行
+
+
+	设置的div后面加
+	
+	@keyframes 动画名称 {
+	  from{ 开始位置 }  0%
+	  to{  结束  }  100%
+	}
+
+	例2:
+	<div></div>
+	例3：
+	<img src="images/car.jpg"  width="100" alt=""/>
+
+
+
+5	无缝滚动效果
+	
+	例4：
+	<nav>
+    <ul>
+        <li><img src="images/nav1.jpg" alt=""/></li>
+        <li><img src="images/nav2.jpg" alt=""/></li>
+        <li><img src="images/nav3.jpg" alt=""/></li>
+        <li><img src="images/nav4.jpg" alt=""/></li>
+        <li><img src="images/nav5.jpg" alt=""/></li>
+        <li><img src="images/nav6.jpg" alt=""/></li>
+        <li><img src="images/nav7.jpg" alt=""/></li>
+        <li><img src="images/nav1.jpg" alt=""/></li>
+        <li><img src="images/nav2.jpg" alt=""/></li>
+        <li><img src="images/nav3.jpg" alt=""/></li>
+        <li><img src="images/nav4.jpg" alt=""/></li>
+        <li><img src="images/nav5.jpg" alt=""/></li>
+        <li><img src="images/nav6.jpg" alt=""/></li>
+        <li><img src="images/nav7.jpg" alt=""/></li>
+    </ul>
+</nav>
+
+
+
+
+6	伸缩布局
+	
+	要给父级盒子添加display:flex;
+	这个盒子就会拥有弹性，就是弹性布局 弹性盒子
+	给子级盒子加	flex:1;
+					可以分不同份数，可以给不同的值
+
+	重点是可以伸缩
+	1. flex子项目中在主轴的缩放比例，不指定flex属性，则不参与伸缩分配
+		min-width  最小值	min-width: 280px  最小宽度，不能小于280
+		max-width: 1280px  最大宽度，不能大于1280
+
+	2.flex-direction调整主轴方向（默认为水平方向）
+
+		flex-direction: column 垂直排列
+		flex-direction: row  水平排列
+
+	例：见大笔记
+
+
+
+
+	</div>
+</body>
+</html>

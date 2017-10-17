@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        body {
+            background: #000;
+        }
+
+        .wrap {
+            margin: 100px auto 0;
+            width: 630px;
+            height: 394px;
+            padding: 10px 0 0 10px;
+            background: #000;
+            overflow: hidden;
+            border: 1px solid #fff;
+        }
+
+        .wrap li {
+            float: left;
+            margin: 0 10px 10px 0;
+
+        }
+
+        .wrap img {
+            display: block;
+            border: 0;
+        }
+    </style>
+    <script src="../jquery-1.12.4.js"></script>
+    <script>
+    	
+    	$(function(){
+    		
+    		// 分析思路：   
+    		//  1鼠标移到所有li上面   让对应移上去的li 透明度为1  让它的其他兄弟们变暗
+    		     // 所谓变暗  (透明度为0.2)
+    		  //  2 当鼠标移出整个div 所有的li都变亮 透明度为1
+    		
+    		$("li").mouseenter(function(){
+    			console.log("触发了li身上的鼠标移上事件");
+    			$(this).css("opacity",1).siblings().css("opacity",0.2);
+    			
+    		})
+    		
+    		$(".wrap").mouseleave(function(){
+    			console.log("触发了wrap的移出事件");
+    			$(this).find("li").css("opacity",1);
+    			
+    		})
+    		
+    		//  wrap移出 ==》li移上==》wrap移出==》wrap移出==》li移上==》wrap移出==》wrap移出
+    	})
+    	
+    </script>
+	</head>
+	<body>
+		<div class="wrap">
+			<ul>
+				<li><a href="#"><img src="images/01.jpg" alt=""></a></li>
+				<li><a href="#"><img src="images/02.jpg" alt=""></a></li>
+				<li><a href="#"><img src="images/03.jpg" alt=""></a></li>
+				<li><a href="#"><img src="images/04.jpg" alt=""></a></li><li><a href="#"><img src="images/03.jpg" alt=""></a></li>
+				<li><a href="#"><img src="images/05.jpg" alt=""></a></li>
+				<li><a href="#"><img src="images/06.jpg" alt=""></a></li>
+			</ul>
+		</div>
+	</body>
+</html>

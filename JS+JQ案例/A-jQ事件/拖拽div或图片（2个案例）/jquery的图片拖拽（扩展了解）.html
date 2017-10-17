@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			img {
+				position: absolute;
+			}
+			
+		</style>
+	</head>
+	<body style="height: 2000px;">
+		<img src="1-small.jpg" alt="" />
+		
+	</body>
+	<script src="jquery-1.12.4.js"></script>
+	<script type="text/javascript">
+		
+		/*
+		//JS	出现问题	图片默认行为
+		var oImg = document.getElementsByTagName("img")[0];
+
+		oImg.onmousedown = function(e){
+			e = e || event;
+			
+			var disX = e.clientX - this.offsetLeft;
+			var disY = e.clientY - this.offsetTop;
+			
+			//e.preventDefault()	//第二种解决方法：阻止默认行为
+			
+			document.onmousemove = function(e){
+				
+				e = e || event;
+				var scrollT = document.documentElement.scrollTop || document.body.scrollTop;
+				
+				oImg.style.left = e.clientX - disX + "px";
+				oImg.style.top = e.clientY + scrollT - disY + "px";
+				
+			}
+			document.onmouseup = function(){
+				document.onmousemove = document.onmouseup = null;
+
+			}
+			
+			//return false;	//第一种解决方法：加return false
+		
+		}
+		*/
+		
+		
+		/*
+		//JS 从ie8及以下版本开始，的解决方式
+		var oImg = document.getElementsByTagName("img")[0];
+		//var oImg = document.getElementById("box");
+		oImg.onmousedown = function(e){
+			e = e || event;
+			
+			var disX = e.clientX - this.offsetLeft;
+			var disY = e.clientY - this.offsetTop;
+			
+			e.preventDefault&&e.preventDefault();
+			e.returnValue&&(e.returnValue = false);// IE6 7 8阻止默认行为的方法
+			
+			// 解决IE 6 7 8 图片无法拖拽的问题 需要使用一个设置全局 捕获的方法
+			oImg.setCapture&&oImg.setCapture();
+			
+			document.onmousemove = function(e){
+				
+				e = e || event;
+				var scrollT = document.documentElement.scrollTop || document.body.scrollTop;
+				
+				oImg.style.left = e.clientX - disX + "px";
+				oImg.style.top = e.clientY + scrollT - disY + "px";
+				
+			}
+			document.onmouseup = function(){
+				document.onmousemove = document.onmouseup = null;
+				//但是拖拽完以后鼠标失去焦点了，无法再次点击别的地方，需要取消捕获
+				oImg.releaseCapture&&oImg.releaseCapture();
+			}
+			
+			return false;
+			
+		}
+		*/
+		
+		
+		
+		/*
+		// jquery 的写法
+		
+		//在图片上 按下鼠标
+		$("img").mousedown(function(e){
+			// 获取鼠标距离图片元素的左上角的偏移量
+			// 距离外面这个元素图片    水平距离
+			var disX = e.offsetX;
+			// 距离外面这个元素图片   垂直距离
+			var disY = e.offsetY;
+			// 给整个文档 添加 鼠标移动事件  和鼠标弹起事件
+			
+			// 为了解决IE6 7 8 图片拖拽问题
+			this.setCapture&&this.setCapture();
+			
+			$(document).on({
+				"mousemove":function(e){
+					// 让图片 的left 和top 跟着 鼠标走
+					// 用pageX 和pageY  不用兼容了 而且不用加scrollTop
+					$("img").css({
+						"left":e.pageX - disX ,
+						"top":e.pageY - disY
+					})
+				},
+				// 弹起鼠标 把文档上的所有事件全部取消 
+				"mouseup":function(){
+					$(this).off();
+					this.releaseCapture&&this.releaseCapture();
+				}
+			})
+			
+			return false; // 既阻止默认行为 又阻止事件冒泡
+		})
+		*/
+		
+	</script>
+</html>

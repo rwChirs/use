@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+
+
+	运用例：
+	div {
+			width: 296px;
+			height: 180px;
+			margin: 20px auto;
+			position: relative; /* 子绝父相 */		
+		}
+		div:hover::before {  /* 鼠标经过之后 前面插入一个伪元素 */
+			content: "";
+			width: 100%;
+			height: 100%;
+			border: 10px solid rgba(255, 255, 255, .3);
+			display: block;  /* 伪元素属于行内元素  要转换 */
+			position: absolute; /* 要伪元素不占位， 就用绝对定位 */
+			top: 0;
+			left: 0;
+			box-sizing: border-box;  /* 把padding 和 border 都算入 width 里面 */
+		}
+
+
+	</style>
+</head>
+<body>
+	
+
+1	CSS用户界面样式
+	
+	1.1 鼠标样式cursor
+	cursor :  default  小白 | pointer  小手  | move  移动  |  text  文本
+
+	如	<li style="cursor: default;">小白</li>
+
+	1.2 轮廓 outline		一般都是去掉的
+	outline : outline-color ||outline-style || outline-width 
+	
+	如	 <input  type="text"  style="outline: 0;"/>   取消轮廓线 
+
+	1.3 防止拖拽文本域resize
+
+	如	<textarea  style="resize: none;"></textarea>
+
+	1.4 vertical-align 垂直对齐
+
+	行内块元素（控制图片和表单）和文字对齐
+
+	vertical-align : baseline 基线对齐|top 顶部对齐|middle 垂直居中|bottom 
+
+	如 vertical-align: top;  /* 用的最多的 */
+	
+	1.5 去除图片底侧空白缝隙
+
+	图片或者表单等行内块元素，则他的底线会和父级盒子的基线对齐。
+
+	解决办法：
+	1.给img 添加 display：block;转换成块级元素
+	2.给img vertical-align:middle | top等等。  让图片不要和基线对齐
+
+	
+
+2	溢出的文字隐藏
+
+	2.1 word-break:自动换行
+		主要处理英文单词
+
+		normal   使用浏览器默认的换行规则。
+
+		break-all   允许在单词内换行。
+
+		keep-all    只能在半角空格或连字符处换行。
+
+	2.2 white-space 设置或检索对象内文本显示方式
+		可以处理中文
+
+		normal : 　默认处理方式
+
+		nowrap : 　强制在同一行内显示所有文本，直到文本结束或者遭遇br标签对象才换行			（常用）
+
+	2.3 text-overflow 文字溢出
+		text-overflow : clip | ellipsis
+		
+		clip : 　不显示省略标记（...），而是简单的裁切 
+
+		ellipsis : 　当对象内文本溢出时显示省略标记（...）
+
+
+		强制注意：
+		一定要首先强制一行内显示，再次和overflow属性  搭配使用
+		
+		如 
+		white-space: nowrap;   <!-- 首先先需要添加这句话 强制一行 -->
+            
+        overflow: hidden;  <!-- 其次必须有这句话 --> 
+            <!-- text-overflow: clip;  直接裁剪  -->
+        text-overflow: ellipsis;  <!-- 超出的部分，省略号代替  -->
+
+
+3	CSS精灵技术（sprite）
+
+	精灵图	sprite
+	精灵技术
+	优势：
+	1.提升页面的加载速度
+	2.减轻服务器的负荷
+	3.提升页面的性能
+	4.减少图片不必要的节点（数量)
+	5.减少了大部分程序员很多图片的命名
+	坏处：
+	1.维护成本较高（小公司一般不使用）
+
+	本质：
+	CSS精灵是一种处理网页背景图像的方式。
+
+	要想精确定位到精灵图中的某个小图，就需要使用CSS的background-image、background-repeat和background-position属性进行背景定位
+	
+	如
+	span {
+			background: url(images/abcd.jpg) no-repeat;
+				float: left;
+			}
+	span:first-child {
+				width: 108px;
+				height: 109px;
+				background-position: 0 -9px;
+			}
+
+
+4	字体图标
+	上传生成字体包
+	icomoon字库	 http://icomoon.io
+	阿里icon font字库	http://www.iconfont.cn/
+
+
+5	滑动门
+	使各种特殊形状的背景能够自由拉伸滑动，以适应元素内部的文本内容
+
+	核心技术
+	利用CSS精灵（主要是背景位置）和盒子padding撑开宽度, 以便能适应不同字数的导航栏。
+
+	如	一般的经典布局都是这样的：
+	<li>
+  		<a href="#">
+    		<span>导航栏内容</span>
+  		</a>
+	</li>
+
+	总结： 
+		1. a 设置 背景左侧，padding撑开合适宽度。    
+		2. span 设置背景右侧， padding撑开合适宽度 剩下由文字继续撑开宽度。
+		3. 之所以a包含span就是因为 整个导航都是可以点击的。
+
+	具体案例看 滑动门l
+
+
+6	before和after伪元素(详解)
+	
+	本质上是 插入一个元素（标签 盒子） 只不过是行内元素 span  a
+
+	不是真正的页面元素，html没有对应的元素，但是其所有用法和表现行为与真正的页面元素一样
+	伪元素的结构无法审查
+
+	div::before{
+		content:"";
+		其他属性都可以写
+	}
+
+	运用例：	鼠标经过显示内边框
+	<div>
+		<img src="images/mi.jpg" height="180" width="296" alt="">
+	</div>
+	<div>
+		<img src="images/mi.jpg" height="180" width="296" alt="">
+	</div>
+	<div>
+		<img src="images/mi.jpg" height="180" width="296" alt="">
+	</div>
+	<div>
+		<img src="images/mi.jpg" height="180" width="296" alt="">
+	</div>
+
+
+
+
+</body>
+</html>
