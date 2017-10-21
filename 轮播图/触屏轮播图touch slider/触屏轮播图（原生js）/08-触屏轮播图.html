@@ -82,6 +82,9 @@
             var firstLi = ul.querySelector('li');
             // 0.4 获取最后一个li
             var lastLi = ul.querySelector('li:last-child'); 
+
+            // 声明一个boolean变量 假设是可以滑动的
+            var locked = false;
             
             // 声明变量
             var aLi, carouselWidth, index = 0, timer, startX, endX;
@@ -126,22 +129,25 @@
             }
 
             // 3.检测索引的变化 调整索引（刚才调节了索引，所以需要做调整）
-                // 3.1 给ul添加transitionEnd事件 当ul过度完成的时候 去监听
-                ul.addEventListener('webkitTransitionEnd',function(){
-                    // console.log(1); //每次切屏的时候都会打印一次
-                    // 3.2 判断索引为0 的时候 让其索引为-8；
-                    if(index == 0){
-                        index == -8;
-                    }
-                    // 3.3 判断索引为-9的时候 让其索引为-1；
-                    if(index == -9){
-                        index = -1;
-                    }
-                    // 3.4 让ul的left值放生变化
-                    ul.style.left = index * carouselWidth + 'px';
-                    // 3.5 去除ul的过度效果 //7-0再到1的时候，会向左7654321，再从1开始；所以要去除这个效果
-                    ul.style.transition = ''; 
-                })
+            // 3.1 给ul添加transitionEnd事件 当ul过度完成的时候 去监听
+            ul.addEventListener('webkitTransitionEnd',function(){
+                // console.log(1); //每次切屏的时候都会打印一次
+
+                locked = false;
+
+                // 3.2 判断索引为0 的时候 让其索引为-8；
+                if(index == 0){
+                    index == -8;
+                }
+                // 3.3 判断索引为-9的时候 让其索引为-1；
+                if(index == -9){
+                    index = -1;
+                }
+                // 3.4 让ul的left值放生变化
+                ul.style.left = index * carouselWidth + 'px';
+                // 3.5 去除ul的过度效果 //7-0再到1的时候，会向左7654321，再从1开始；所以要去除这个效果
+                ul.style.transition = ''; 
+            })
 
             // 4.用手指去控制轮播图
             // 4.1 声明变量 startX,endX
@@ -155,6 +161,15 @@
             })
             // 4.3 给ul添加touchend事件 获取结束点的x坐标
             ul.addEventListener('touchend',function(e){
+
+                // 判断locked 是否为true 如果为true 的 手指的滑动是要被忽略的
+                if(locked == true) {
+                    return false;
+                }
+
+                locked = true;
+
+
                 autoplay();
 
                 var touches = e.changedTouches[0];
